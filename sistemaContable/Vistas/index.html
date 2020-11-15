@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Administración contable</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/fontawesomefontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!--% for dep, valor in departamentos.items %}
+{dep}} { valor }}<br/> -->
+<!--% endfor %} -->
+
+
+<section class="content">
+<br/> 
+<div class="container"> <!--container-->
+<div class="container-fluid"> <!-- container -fluid -->
+<div class="panel panel-default"> <!--panel-->
+<div class="panel-body"> <!--panel body-->
+<div class="row"> <!-- row-->
+ 
+</div> <!-- row-->
+</div> <!--panel body-->
+</div> <!-- panel -->
+</div> <!-- container fluid-->
+</div> <!--container-->
+
+</section> <!--CONTENT-->
+
+<div class="row">
+  <div class="col-md-8">
+   <!-- TABLE: LATEST ORDERS -->
+   <div class="card">
+    <div class="card-header border-transparent">
+      <h3 class="card-title">Ultimas partidas de diario ingresadas - Ciclo <b>1</b> ID {{id}}</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table m-0">
+          <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Id Partida</th>
+            <th>Descripcion</th>
+            <th>Saldo</th>
+            <th>Operaciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><a href="pages/examples/invoice.html">OR9842</a></td>
+            <td>Call of Duty IV</td>
+            <td><span class="badge badge-success">Shipped</span></td>
+            <td>
+              <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+            </td>
+            <td>
+              <div class="input-group-append">
+                <button id="add-new-event" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingresarPartida">Visualizar</button>
+              </div>
+            </td>
+          </tr>
+       
+          </tbody>
+        </table>
+      </div>
+      <!-- /.table-responsive -->
+    </div>
+
+    <!-- /.card-body 
+    <div class="card-footer clearfix">
+      <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+      <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+    </div>
+    -->
+
+    <!-- /.card-footer -->
+  </div> <!-- col-md- 8-->
+
+  </div>
+  <div class="col-md-4">
+    <div class="sticky-top mb-3">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Opciones</h4>
+        </div>
+        <div class="card-body">
+          <!-- the events -->
+          <div id="external-events">
+            <div class="external-event bg-success"><a href="{% url 'iniciarCicloContable' %}" class="nav-link ">Iniciar ciclo contable</a></div>
+            <div class="external-event bg-primary" ><a href="{% url 'ingresarPartidaDiario' %}">Ingresar nueva partida</a></div>
+            <div class="external-event bg-danger"><a href="{% url 'finalizarCicloContable' %}" class="nav-link ">Finalizar ciclo contable</a></div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Filtrar</h3>
+        </div>
+        <div class="card-body">
+          <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+            <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+            <div><p>Fecha de Inicio <b>tanto</b></p></div><br/>
+            <p>Fecha de Fin <b>Tanto</b></p>
+          </div>
+          <!-- /btn-group -->
+          <div class="input-group">
+            <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+
+            <div class="input-group-append">
+              <button id="add-new-event" type="button" class="btn btn-primary">Obtener</button>
+            </div>
+            <!-- /btn-group -->
+          </div>
+          <!-- /input-group -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="ingresarPartida">
+    <div class="modal-dialog">
+     <div class="modal-content-wrap">
+         <div class="modal-content">
+             <div class="modal-header" style="background-color: rgb(22, 135, 180)">
+                 <h4 class="modal-tittle">Partida de Diario</h4>
+             </div>
+             <div class="modal-body">
+                 <div class="contenedor">
+                     CONTENIDO
+                     <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Filtrar</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                          <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                          <ul class="fc-color-picker" id="color-chooser">
+                            <li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
+                          </ul>
+                        </div>
+                        <!-- /btn-group -->
+                        <div class="input-group">
+                          <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+              
+                          <div class="input-group-append">
+                            <button id="add-new-event" type="button" class="btn btn-primary">Obtener</button>
+                          </div>
+                          <!-- /btn-group -->
+                        </div>
+                        <!-- /input-group -->
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Filtrar</h3>
+                      </div>
+                      <div class="card-body">
+                        
+                        <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                          <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                          
+                          <ul class="fc-color-picker" id="color-chooser">
+                            
+                            <li><a class="text-primary" href="#"><i class="fas fa-square"></i>dfsdfd</a></li>
+                            <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
+                            <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
+                          </ul>
+                        </div>
+                        <!-- /btn-group -->
+                        <div class="input-group">
+                          <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+              
+                          <div class="input-group-append">
+                            <button id="add-new-event" type="button" class="btn btn-primary">Obtener</button>
+                          </div>
+                          <!-- /btn-group -->
+                        </div>
+                        <!-- /input-group -->
+                      </div>
+                    </div>
+
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button data-dismiss="modal" class="btn btn-default">Cerrar</button>
+                 <button data-dismiss="modal" class="btn btn-success">Ingresar</button>
+             </div>
+         </div>
+    
+         <!-- MODAL -->
+
+     </div>
+     </div>
+ </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,5 @@
+1- nombre de la BD: proyectosic2020
+2- Mysql -> instalar xampp y correr el servidor de mysql para la bd.
+3- instalar workbench 8.0
+4- crear un usuario en mysqlworkbench llamado usersic con contraseña "proyectosic2020" 
+5-correr el comando python manage.py createsuperuser con los mismos datos de usuario que el de arriba.

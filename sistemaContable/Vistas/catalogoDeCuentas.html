@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Administración contable</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/fontawesomefontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!--% for dep, valor in departamentos.items %}
+{dep}} { valor }}<br/> -->
+<!--% endfor %} -->
+
+
+<section class="content">
+<br/> 
+<h2><b>CATALOGO DE CUENTAS</b></h2>
+<div class="container"> <!--container-->
+<div class="container-fluid"> <!-- container -fluid -->
+<div class="panel panel-default"> <!--panel-->
+<div class="panel-body"> <!--panel body-->
+<div class="row"> <!-- row-->
+ 
+<div class="col-md-8">
+  <table id="example1" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Codigo</th>
+      <th>Cuenta</th>
+      <th>Operaciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+      {% for c in cuentas %}
+      <tr>
+      <td>{{ c.codigo_cuenta }}</td>
+      <td>{{ c.nombre_cuenta }}</td>
+      <td>
+        <a type='button' class="btn btn-primary " id="{{c.id_cuenta}}editar" onclick="" title="Edita una cuenta">
+            editar
+        </a>
+        <a type='button' class="btn btn-danger" id="{{c.id_cuenta}}eliminar" onclick="" title="Elimina una cuenta">
+          eliminar
+      </a>
+    </td>
+  </tr>
+    {% endfor %}
+      
+    </tbody>
+    <tfoot>
+    <tr> 
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<div class="col-md-4">
+  <div class="sticky-top mb-3">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><b>Operaciones</b></h4>
+      </div>
+      <div class="card-body">
+        <!-- the events -->
+          <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+            <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+            <button id="add-new-event" type="button" class="btn btn-success" data-toggle="modal" data-target="#ingresarCuenta">Ingresar Cuenta</button>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+
+  <div class="sticky-top mb-3">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Categorias</h4>
+      </div>
+      <div class="card-body">
+        <!-- the events -->
+          <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+            <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>Codigo</th>
+                <th>Categoria</th>
+                
+              </tr>
+              </thead>
+              <tbody>
+              {% for cat in categorias %}
+              <tr>
+                 <td>{{cat.codigo_categoria}}</td>
+                 <td>{{cat.nombre_categoria}}</td>
+              </tr>
+              {% endfor %}
+              </tbody>
+              <tfoot>
+              </tfoot>
+            </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+
+    <div class="sticky-top mb-3">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Tipos de cuenta</h4>
+        </div>
+        <div class="card-body">
+          <!-- the events -->
+            <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+              <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th> Tipo de Cuenta</th>
+                  
+                </tr>
+                </thead>
+                <tbody>
+                {% for tip in tipos %}
+                   <tr>
+                     <td>
+                       {{tip.codigo_tipo}}
+                     </td>
+                     <td>
+                       {{tip.nombre_tipo_cuenta}}
+                     </td>
+                   </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                </tfoot>
+              </table>
+        </div>
+        <!-- /.card-body -->
+
+       
+</div>
+
+
+</div> <!-- row-->
+</div> <!--panel body-->
+</div> <!-- panel -->
+
+</div> <!-- container fluid-->
+</div> <!--container-->
+
+
+
+<div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="ingresarCuenta">
+  <div class="modal-dialog">
+   <div class="modal-content-wrap">
+       <div class="modal-content">
+           <div class="modal-header" style="background-color: rgb(22, 135, 180)">
+               <h4 class="modal-tittle">Cuenta</h4>
+           </div>
+           <div class="modal-body">
+               <div class="contenedor">
+
+                   CONTENIDO
+                   <form id="formNuevaCuenta" method="GET">
+                   <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="categoriacbx" name="categoriacbx" class="form-control select2" style="width: 100%;">
+                      <option value="0" selected="selected">Seleccione una categoria</option>
+                      {% for cat in categorias %}
+                      <option value="{{cat.id_categoria_cuenta}}">{{cat.nombre_categoria}}</option>
+                      {% endfor %}
+                    </select>
+                    <label>Tipo de cuenta</label>
+                    <select id="tipoCuentacbx" name="tipoCuentacbx" class="form-control select2" style="width: 100%;">
+                      <option value="0" selected="selected">Seleccione un tipo</option>
+                    </select>
+                    <div class="form-group">
+                      <label for="nombreCuentaIbx">Ingrese el nombre de la cuenta</label>
+                      <input type="text" name="nombreCuentaIbx" class="form-control" id="nombreCuentaIbx" placeholder="">
+                    </div>
+
+
+                  </div> <!-- contenedor -->
+                      <!-- /btn-group -->
+                      <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default">Cerrar</button>
+                        <button data-dismiss="modal" type="submit" id="guardarCuenta" class="btn btn-success">Ingresar</button>
+                    </div>
+                    </div>
+                  </div>
+                </form>
+          
+       </div>
+  
+       <!-- MODAL -->
+
+   </div>
+   </div>
+</div>
+
+<!-- Modal de respuesta del guardado -->
+<div class="modal fade" id="modal_resultado">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style= "font-family:'Times New Roman', Times, serif">Resultado</h4>
+        <button type="button" id="btn_cerrar" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+          <p id="resul"> </p> 
+      
+    
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+      </div>
+        
+      
+    </div>
+
+
+</section> <!--CONTENT-->
+
+
+
+
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+<script>
+
+  //script que filtra el tipo de cuenta a partir de la categoria
+  $('#categoriacbx').change(function(){  
+    var id_categoria = $(this).val();
+    if(id_categoria == "0")
+    {
+      $('#tipoCuentacbx option ').remove();
+      o = "<option value='0'> Seleccione un tipo </option>";
+      $('#tipoCuentacbx').append(o);
+    }
+    else
+    {
+      if(id_categoria == 1)
+      {
+      $('#tipoCuentacbx option ').remove();
+      o = "<option value='1'> Activo Corriente </option>";
+      $('#tipoCuentacbx').append(o);
+      o = "<option value='2'> Activo No Corriente </option>";
+      $('#tipoCuentacbx').append(o);
+    }
+    else
+    {
+      if(id_categoria == 2)
+      {
+      $('#tipoCuentacbx option ').remove();
+      var o = "<option value='3'> Pasivo Corriente </option>";
+      $('#tipoCuentacbx').append(o);
+      var o = "<option value='4'> Pasivo No Corriente </option>";
+      $('#tipoCuentacbx').append(o);
+    }
+
+    }
+
+    }
+   
+  });
+</script>
+<script>
+
+// script que crea una cuenta y trae información de confirmación y luego recarga la página
+   $(document).ready(function() {
+  $('#guardarCuenta').on('click', function(e){
+    // validation code here
+    e.preventDefault();
+    var formulario = $("#formNuevaCuenta");
+    $.ajax({
+        url: '{% url "crearCuenta" %}',
+        data: formulario.serialize(),
+        dataType: 'json',
+        success: function (data) 
+        {
+        console.log(data);
+        $("#modal_resultado").modal("show");
+        resul="Su Resultado es: " + data.salvado
+        $("#resul").html(resul);
+        location.reload();
+        }
+        });
+    
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% load static %}
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <!-- Sidebar user panel (optional) -->
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="{% static 'lib/AdminLTE3.0.4/img/avatar01.png' %}" class="img-circle elevation-2" alt="User Image">
+    </div>
+    {% if user.is_authenticated %}
+    <div class="info">
+      <p class="d-block" style="color: #ffffff
+">Bienvenido<b>  {{user.username}}</b></p>
+    </div>
+    {% else %}
+    <div class="info">
+      <a href="{% url 'login' %}" class="d-block">Iniciar Sesión</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Sidebar Menu -->
+  <nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+      <li class="nav-item has-treeview menu-open">
+        <a href="#" class="nav-link active">
+          <i class="nav-icon fas fa-tachometer-alt"></i>
+          <p>
+            Menú de Opciones
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+         {% if user.is_authenticated %}
+          <ul class="nav nav-treeview">
+          {% if modulo == "menu_usuario" %}
+          <li class="nav-item">
+            <a href="{% url 'menu_usuario' %}"  class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de Uso</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'menu_usuario' %}"  class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de Uso</p>
+            </a>
+          </li>
+          {% endif %}
+         {% if modulo == "catalogoCuentas" %}
+          <li class="nav-item">
+            <a href="{% url 'catalogoDeCuentas' %}" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Catalogo de cuentas</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'catalogoDeCuentas' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Catalogo de cuentas</p>
+            </a>
+          </li>
+          {% endif %}
+          {% if modulo == "parametrosCostos" %}
+          <li class="nav-item">
+            <a href="{% url 'parametrosCostos' %}"} class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Parametros de costos</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'parametrosCostos' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Parametros de costos</p>
+            </a>
+          </li>
+          {% endif %}
+          {% if modulo == "informacionCostos" %}
+          <li class="nav-item">
+            <a href="{% url 'informacionCostos' %}" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de costos</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'informacionCostos' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de costos</p>
+            </a>
+          </li>
+          {% endif %}
+          {% if modulo == "parametrosInventario" %}
+          <li class="nav-item">
+            <a href="{% url 'parametrosInventario' %}" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Parametros de Inventario</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'parametrosInventario' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Parametros de Inventario</p>
+            </a>
+          </li>
+          {% endif %}
+          {% if modulo == "informacionInventario" %}
+          <li class="nav-item">
+            <a href="{% url 'informacionInventario' %}" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de Inventario</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'informacionInventario' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Informacion de Inventario</p>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a href="{% url 'logout' %}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Cerrar Sesión</p>
+            </a>
+          </li>
+        </ul>
+         {% else %}
+        <ul class="nav nav-treeview">
+        {% if modulo == "index" %}
+          <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Inicio</p>
+            </a>
+          </li>
+        {% else %}
+         <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-link ">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Inicio</p>
+            </a>
+          </li>
+        {% endif %}
+        {% if modulo == "aiiuda" %}
+        <li class="nav-item">
+            <a href="" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Conseguir Ayuda</p>
+            </a>
+          </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Conseguir Ayuda</p>
+            </a>
+          </li>
+        {% endif %}
+        {% if modulo == "test" %}
+        <li class="nav-item">
+            <a href="" class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Realizar Test de Caso</p>
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Realizar Test de Caso</p>
+            </a>
+          </li>
+        {% endif %}
+        </ul>
+       
+        {% endif %}
+      </li>
+     <!-- <li class="nav-item">
+        <a href="pages/widgets.html" class="nav-link">
+          <i class="nav-icon fas fa-th"></i>
+          <p>
+            Widgets
+            <span class="right badge badge-danger">New</span>
+          </p>
+        </a>
+      </li>-->
+     
+    </ul>
+  </nav>
+  <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
