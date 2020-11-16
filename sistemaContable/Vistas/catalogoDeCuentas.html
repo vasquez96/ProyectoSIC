@@ -64,10 +64,10 @@
       <td>{{ c.codigo_cuenta }}</td>
       <td>{{ c.nombre_cuenta }}</td>
       <td>
-        <a type='button' class="btn btn-primary " id="{{c.id_cuenta}}editar" onclick="" title="Edita una cuenta">
+        <a type='button' class="btn btn-primary editarCuentabt " id="{{c.id_cuenta}}editar" data-toggle="modal" data-target="#editarCuenta" title="Edita una cuenta">
             editar
         </a>
-        <a type='button' class="btn btn-danger" id="{{c.id_cuenta}}eliminar" onclick="" title="Elimina una cuenta">
+        <a type='button' class="btn btn-danger" id="{{c.id_cuenta}}eliminar" data-toggle="modal" data-target="#editarCuenta" title="Elimina una cuenta">
           eliminar
       </a>
     </td>
@@ -177,13 +177,13 @@
 </div> <!--container-->
 
 
-
+<!--MODAL DE INGRESO DE UNA CUENTA -->
 <div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="ingresarCuenta">
   <div class="modal-dialog">
    <div class="modal-content-wrap">
        <div class="modal-content">
            <div class="modal-header" style="background-color: rgb(22, 135, 180)">
-               <h4 class="modal-tittle">Cuenta</h4>
+            <h4 style="color:rgba(252, 248, 248, 0.753);" class="modal-tittle"><b>Nueva Cuenta</b></h4>
            </div>
            <div class="modal-body">
                <div class="contenedor">
@@ -225,6 +225,63 @@
    </div>
    </div>
 </div>
+<!--MODAL DE INGRESO DE UNA CUENTA -->
+
+
+<!--MODAL DE ACTUALIZAR UNA CUENTA -->
+<div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="editarCuenta">
+  <div class="modal-dialog">
+   <div class="modal-content-wrap">
+       <div class="modal-content">
+           <div class="modal-header" style="background-color: rgb(22, 135, 180)">
+               <h4 style="color:rgba(252, 248, 248, 0.753);" class="modal-tittle"><b>Editar Cuenta</b></h4>
+           </div>
+           <div class="modal-body">
+               <div class="contenedor">
+
+                   <form id="formEditarCuenta" method="GET">
+                     <div class="id_cuenta_a_actualizar">
+                       <input type="hidden" id="id_actualizar_cuenta" name="id_actualizar_cuenta">
+                     </div>
+                   <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="editcategoriacbx" name="editcategoriacbx" class="form-control select2" style="width: 100%;">
+                      <option value="0" selected="selected">Seleccione una categoria</option>
+                      {% for cat in categorias %}
+                      <option value="{{cat.id_categoria_cuenta}}">{{cat.nombre_categoria}}</option>
+                      {% endfor %}
+                    </select>
+                    <label>Tipo de cuenta</label>
+                    <select id="edittipoCuentacbx" name="edittipoCuentacbx" class="form-control select2" style="width: 100%;">
+                      <option value="0" selected="selected">Seleccione un tipo</option>
+                      {% for tip in tipos %}
+                      <option value="{{tip.id_tipo_cuenta}}">{{tip.nombre_tipo_cuenta}}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="form-group IbxEditnombre">
+                      <label for="nombreCuentaIbx">Ingrese el nombre de la cuenta</label>
+                      <input type="text" name="editnombreCuentaIbx" class="form-control" id=" editnombreCuentaIbx" placeholder="">
+                    </div>
+
+
+                  </div> <!-- contenedor -->
+                      <!-- /btn-group -->
+                      <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default">Cerrar</button>
+                        <button data-dismiss="modal" type="submit" id="editarCuentabtn" class="btn btn-success">Actualizar</button>
+                    </div>
+                    </div>
+                  </div>
+                </form>
+          
+       </div>
+  
+       <!-- MODAL -->
+
+   </div>
+   </div>
+</div>
+<!--MODAL DE ACTUALIZAR UNA CUENTA -->
 
 <!-- Modal de respuesta del guardado -->
 <div class="modal fade" id="modal_resultado">
@@ -275,9 +332,9 @@
       if(id_categoria == 1)
       {
       $('#tipoCuentacbx option ').remove();
-      o = "<option value='1'> Activo Corriente </option>";
+      o = "<option value='1'> Corriente </option>";
       $('#tipoCuentacbx').append(o);
-      o = "<option value='2'> Activo No Corriente </option>";
+      o = "<option value='2'> No Corriente </option>";
       $('#tipoCuentacbx').append(o);
     }
     else
@@ -285,9 +342,9 @@
       if(id_categoria == 2)
       {
       $('#tipoCuentacbx option ').remove();
-      var o = "<option value='3'> Pasivo Corriente </option>";
+      var o = "<option value='1'> Corriente </option>";
       $('#tipoCuentacbx').append(o);
-      var o = "<option value='4'> Pasivo No Corriente </option>";
+      var o = "<option value='2'>  No Corriente </option>";
       $('#tipoCuentacbx').append(o);
     }
 
@@ -297,6 +354,8 @@
    
   });
 </script>
+
+
 <script>
 
 // script que crea una cuenta y trae información de confirmación y luego recarga la página
@@ -321,5 +380,90 @@
     
   });
 });
+</script>
+<!-- SCRIPT para rellenar el modal de edicion de cuenta-->
+<script>
+  $('.editarCuentabt').on('click', function(e){
+  // validation code here
+  console.log("entro");
+  var id_btn = $(this).attr('id');
+  var id_cuenta= id_btn.split('editar');
+  console.log(id_cuenta);
+
+  $.ajax({
+      url: '{% url "obtenerCuenta" %}',
+      data: {id_cuenta_transaccion_cbx: id_cuenta[0]},
+      dataType: 'json',
+      success: function (data) 
+      {
+      console.log(data);
+
+      var codigo=data[0].codigo_cuenta;
+      var cortar = codigo;
+
+      var cat=cortar.toString().slice(0,-2);
+      var tip=codigo.toString().slice(1,-1);
+
+      console.log(cat);
+      console.log(tip);
+
+      //control de la categoria
+      if(cat == 1)
+      {
+        $('#editcategoriacbx').val(1);
+      }
+      else
+      {
+        $('#editcategoriacbx').val(2);
+      }
+
+      //control del tipo
+      if(tip == 1)
+      {
+        $('#edittipoCuentacbx').val(1);
+      }
+      else
+      {
+        $('#edittipoCuentacbx').val(2);
+      }
+
+      var nombre = data[0].nombre_cuenta.toString();
+      console.log(nombre);
+      //control del nombre - asi se le ingresa un valor por defecto a un input
+      $('.IbxEditnombre input').val(nombre);
+      $('.id_cuenta_a_actualizar input').val(data[0].id_cuenta);
+      
+      
+      }
+      });
+  });
+</script>
+
+<script>
+  $('#editarCuentabtn').on('click', function(e){
+    e.preventDefault();
+    var formulario = $("#formEditarCuenta");
+
+    $.ajax({
+      url: '{% url "editarCuenta" %}',
+      data: formulario.serialize(),
+      dataType: 'json',
+      success: function (data) 
+      {
+      console.log(data);
+
+      if(data[0].resultado == true)
+      {
+        $("#modal_resultado").modal("show");
+        resul="Su Resultado es: Actualizado "
+        $("#resul").html(resul);
+        location.reload();
+      }
+
+      
+      }
+      });
+
+  });
 </script>
 {% endblock %}

@@ -59,7 +59,11 @@
    <!-- TABLE: LATEST ORDERS -->
    <div class="card">
     <div class="card-header border-transparent">
-      <h3 class="card-title">Ultimas partidas de diario ingresadas - Ciclo <b>1</b> ID {{id}}</h3>
+      {% if sin_ciclo == True %}
+      <h3 class="card-title">Ultimas partidas de diario ingresadas - Ciclo ID <b>No establecido</b></h3>
+      {% else %}
+      <h3 class="card-title">Ultimas partidas de diario ingresadas - Ciclo ID <b>{{ciclo_id}}</b></h3>
+      {% endif %}
 
       <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -84,19 +88,39 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-            <td>Call of Duty IV</td>
-            <td><span class="badge badge-success">Shipped</span></td>
-            <td>
-              <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-            </td>
-            <td>
-              <div class="input-group-append">
-                <button id="add-new-event" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ingresarPartida">Visualizar</button>
-              </div>
-            </td>
-          </tr>
+          {% if sin_ciclo == True %}
+          <tr><td colspan="5"><center><b>Sin Partidas Ingresadas</b></center></td></tr>
+          {% else %}
+
+            {% if partidas|length == 0 %}
+                <tr><td colspan="5"><center><b>Sin Partidas Ingresadas</b></center></td></tr>
+            {% else %}
+                {% for p in partidas %}
+                    <tr>
+                          <td>
+                            {{p.fecha_partida}}
+                          </td>
+                          <td>
+                            {{p.id_partida}}
+                          </td>
+                          <td>
+                            {{p.descripcion_partida}}
+                          </td>
+                          <td>
+                            {{p.saldo_partida}}
+                          </td>
+
+                          <td>
+                            <div class="input-group-append">
+                              <button id="{{ p.id_partida }}visualizarbtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#visualizarPartidaModal">Visualizar</button>
+                            </div>
+                          </td>
+
+                    </tr>
+                {% endfor %}
+            {% endif %}
+
+          {% endif %}
        
           </tbody>
         </table>
@@ -124,9 +148,32 @@
         <div class="card-body">
           <!-- the events -->
           <div id="external-events">
-            <div class="external-event bg-success"><a href="{% url 'iniciarCicloContable' %}" class="nav-link ">Iniciar ciclo contable</a></div>
-            <div class="external-event bg-primary" ><a href="{% url 'ingresarPartidaDiario' %}">Ingresar nueva partida</a></div>
-            <div class="external-event bg-danger"><a href="{% url 'finalizarCicloContable' %}" class="nav-link ">Finalizar ciclo contable</a></div>
+            {% if sin_ciclo == False %}
+              <center><div class="btn btn-success btn-lg" onclick="" id="nuevoCicloContablebtn" disabled>Iniciar ciclo contable</div></center>
+            {% else %}
+            <center><div class="btn btn-success btn-lg" onclick="" id="nuevoCicloContablebtn" >Iniciar ciclo contable</div></center>
+            {% endif %}
+
+            {% if sin_ciclo == True %}
+            <center><div class="btn btn-primary btn-lg" onclick="{% url 'ingresarPartidaDiario' %}" disabled>Ingresar Nueva Partida</div></center>
+            {% else %}
+            <center><div class="btn btn-primary btn-lg" onclick="{% url 'ingresarPartidaDiario' %}" >Ingresar Nueva Partida</div></center>
+            {% endif %}
+
+            {% if sin_ciclo == False %}
+            <center><div class="btn btn-danger btn-lg" id="finalizarCicloContablebtn" onclick="" disabled>Finalizar ciclo contable</div></center>
+            {% else %}
+            <center><div class="btn btn-danger btn-lg" id="finalizarCicloContablebtn" onclick="" >Finalizar ciclo contable</div></center>
+            {% endif %}
+
+            <ul class="list-group">
+              {% if sin_ciclo == True %}
+              <li class="list-group-item">Inicio de Ciclo <b> Ciclo No Establecido</b></li>
+              {% else %}
+              <li class="list-group-item">Inicio de Ciclo <b>{{fecha_inicio_ciclo|date}}</b></li>
+              {% endif %}
+              <li class="list-group-item">Fecha Actual <b>{{fecha_hoy}}</b></li>
+            </ul>
           </div>
         </div>
         <!-- /.card-body -->
@@ -139,8 +186,7 @@
         <div class="card-body">
           <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
             <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-            <div><p>Fecha de Inicio <b>tanto</b></p></div><br/>
-            <p>Fecha de Fin <b>Tanto</b></p>
+            
           </div>
           <!-- /btn-group -->
           <div class="input-group">
@@ -157,8 +203,8 @@
     </div>
   </div>
 
-  <!-- MODAL -->
-  <div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="ingresarPartida">
+  <!-- MODAL  VISUALIZAR -->
+  <div class="modal fade modal-dialog-center"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="visualizarPartidaModal">
     <div class="modal-dialog">
      <div class="modal-content-wrap">
          <div class="modal-content">
@@ -234,13 +280,37 @@
                  <button data-dismiss="modal" class="btn btn-success">Ingresar</button>
              </div>
          </div>
-    
-         <!-- MODAL -->
-
      </div>
      </div>
  </div>
 </div>
+<!-- MODAL VISUALIZAR -->
+
+
+<!-- Modal de respuesta del guardado -->
+<div class="modal fade" id="modal_resultado">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style= "font-family:'Times New Roman', Times, serif">Resultado</h4>
+        <button type="button" id="btn_cerrar" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+          <p id="resul"> </p> 
+      
+    
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+      </div>
+        
+      
+    </div>
+
+<!-- modal de respuesta del guardado-->
 
 
 </div>
@@ -251,4 +321,72 @@
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
 <!-- jQuery -->
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+<!--SCRIPT QUE INICIA NUEVO CICLO CONTABLE Y CONTROL DEL BOTON DE CICLO CONTABLE-->
+<script>
+  $("#nuevoCicloContablebtn").on('click', function(e){
+
+    e.preventDefault();
+
+    var attr = $(this).attr('disabled');
+
+// For some browsers, `attr` is undefined; for others,
+// `attr` is false.  Check for both.
+    if(typeof attr !== typeof undefined && attr !== false)
+    {
+
+    }
+    else
+    {
+
+    
+
+    $.ajax({
+      url: '{% url "iniciarCicloContable" %}',
+      data: {},
+      dataType: 'json',
+      success: function (data) 
+      {
+      console.log(data);
+
+      if(data[0].creado == true)
+      {
+        $("#modal_resultado").modal("show");
+        resul="Su Resultado es: INICIADO NUEVO CICLO CONTABLE "
+        $("#resul").html(resul);
+        location.reload();
+      }
+
+   
+      
+      }
+      });
+    }
+  });
+</script>
+
+<script>
+  $("#finalizarCicloContablebtn").on('click', function(e){
+
+    var id_ciclo_contable = {{ciclo_id}};
+    $.ajax({
+      url: '{% url "finalizarCicloContable" %}',
+      data: {id_ciclo: id_ciclo_contable},
+      dataType: 'json',
+      success: function (data) 
+      {
+      console.log(data);
+
+      if(data[0].finalizado == true)
+      {
+        $("#modal_resultado").modal("show");
+        resul="Su Resultado es: SE HA FINALIZADO EL CICLO CONTABLE "
+        $("#resul").html(resul);
+        location.reload();
+      }
+      }
+      });
+
+  });
+</script>
 {% endblock %}
