@@ -7,6 +7,10 @@ from entidades.models import CategoriaCuenta
 from entidades.models import TipoCuenta
 from entidades.models import Cuenta
 from entidades.models import PartidaDiario
+from entidades.models import Mayorizado
+from entidades.models import PartidaCuenta
+
+import json
 
 # Create your views here.
 
@@ -29,13 +33,13 @@ def menu_usuario(requestContext):
     else:
         #obteniendo las partidas de diario responsabilidad del usuario logeado y a partir del ciclo activo
         ciclo=CicloContable.objects.filter(activo=True)
-        fecha_ciclo=ciclo[0].fecha_inicio
+        fecha_ciclo=ciclo[0].fecha_inicio.date()
         sin_ciclo=False
         
         partidasDiarioUsuario= PartidaDiario.objects.filter(usuario_responsable=idusuario)
 
         for p in partidasDiarioUsuario:
-            fecha_p = p.fecha_partida.date()
+            fecha_p = p.fecha_partida
 
             if fecha_ciclo <= fecha_p and fecha_p <= fecha_hoy:
                 partidasCiclo.append(p)
@@ -68,7 +72,52 @@ def finalizar_ciclo_contable(request):
 
     id_ciclo = request.GET.get('id_ciclo')
 
-    ciclo = CicloContable.objects.filter(id_ciclo = id_ciclo).update(activo=False)
+    ciclo = CicloContable.objects.filter(id_ciclo = id_ciclo).update(activo=False, fecha_fin = datetime.now().date())
+    ciclo = CicloContable.objects.get(id_ciclo = id_ciclo)
+
+    cuentas = Cuenta.objects.all()
+
+    for c in cuentas:
+        m = Mayorizado()
+        m.id_cuenta = c
+        m.id_ciclo = ciclo
+        m.fecha_inicio = ciclo.fecha_inicio
+        m.fecha_final= ciclo.fecha_fin
+
+        partidas_diario = PartidaDiario.objects.all()
+
+        partidas_filtradas =[]
+
+        for pd in partidas_diario:
+
+            if pd.fecha_partida >= ciclo.fecha_inicio.date() and pd.fecha_partida <= ciclo.fecha_fin:
+                partidas_filtradas.append(pd)
+
+        saldo_debe=0
+        saldo_haber=0
+
+        for pf in partidas_filtradas:
+
+            c_partidas=PartidaCuenta.objects.filter(id_cuenta = c, id_partida = pf)
+
+            for c_pa in c_partidas:
+
+                if c_pa.naturaleza_cuentapartida == "Debe":
+                    saldo_debe = saldo_debe + c_pa.saldo_partidacuenta
+                else:
+                    saldo_haber = saldo_haber + c_pa.saldo_partidacuenta
+        
+            m.saldo_mayorizado=abs(saldo_debe - saldo_haber)
+
+            if saldo_debe > saldo_haber:
+                m.naturaleza_mayorizado = "Debe"
+            else:
+                if saldo_debe == saldo_haber:
+                    m.naturaleza_mayorizado == "Saldado"
+                else:
+                    m.naturaleza_mayorizado = "Haber"
+            m.save()
+
 
     r={"finalizado": finalizado}
     data=[]
@@ -77,12 +126,128 @@ def finalizar_ciclo_contable(request):
 
     return JsonResponse(data, safe=False)
 
+def obtener_ciclo_contable(request):
+    id_ciclo = request.GET.get('id_ciclo')
+
+    ciclo=CicloContable.objects.get(id_ciclo=id_ciclo)
+
+    data=[]
+
+    r={"fecha_inicio":ciclo.fecha_inicio, "fecha_fin":ciclo.fecha_fin, "id_ciclo":ciclo.id_ciclo}
+
+    data.append(r)
+
+    return JsonResponse(data, safe=False)
+
+
+
 
 def ingresar_partida_diario(requestContext):
 
     cuentas= Cuenta.objects.all()
+    idusuario=requestContext.user.id
 
-    return render(requestContext, "partidaDiario.html",{"cuentas":cuentas})
+
+    return render(requestContext, "partidaDiario.html",{"cuentas":cuentas, "usuario":idusuario})
+
+def crear_partida_diario(request):
+
+    n_partida=PartidaDiario()
+    descripcion = request.GET.get("descripcion_partida")
+    saldo_partida = request.GET.get("saldo_partida")
+    usuario_r = request.GET.get("usuario_responsable")
+
+    n_partida.fecha_partida = datetime.now().date()
+    n_partida.descripcion_partida=descripcion
+    n_partida.saldo_partida=saldo_partida
+    n_partida.usuario_responsable=usuario_r
+    n_partida.save()
+
+    guardado = True
+    data=[]
+
+    r={"guardado": guardado, "id_partida":n_partida.id_partida}
+    data.append(r)
+
+
+    return JsonResponse(data, safe=False)
+
+def crear_partida_cuenta(request):
+    codigo_cuenta = request.GET.get("codigo_c")
+    naturaleza = request.GET.get("naturaleza_transaccion")
+    saldo = request.GET.get("saldo_transaccion")
+    id_partida = request.GET.get("id_partida")
+
+    print("valor id")
+    print(id_partida)
+    print("codigo_c")
+    print(codigo_cuenta)
+    print("saldo_partida")
+    print(saldo)
+
+    pc=PartidaCuenta()
+
+    cuenta = Cuenta.objects.filter(codigo_cuenta=codigo_cuenta)
+    partida = PartidaDiario.objects.get(id_partida=id_partida)
+
+    pc=PartidaCuenta()
+    pc.id_cuenta=cuenta[0]
+    pc.id_partida=partida
+    pc.naturaleza_cuentapartida=naturaleza
+    pc.saldo_partidacuenta=saldo
+    pc.save()
+
+    guardado=True
+    data=[]
+    r={"guardado":guardado}
+    data.append(r)
+    
+
+    return JsonResponse(data, safe=False)
+
+def mayorizacion(requestContext):
+
+    modulo="mayorizacion"
+    cuentas = Cuenta.objects.all()
+    ciclos_finalizados=CicloContable.objects.filter(activo=False)
+
+    return render(requestContext, "mayorizacion.html", {"modulo":modulo, "cuentas": cuentas, "ciclos_finalizados":ciclos_finalizados})
+
+def obtener_mayorizacion_cuenta(request):
+
+    data=[]
+    id_cuenta = request.GET.get("id_cuenta")
+    id_ciclo = request.GET.get("id_ciclo")
+    mayorizacion_cuenta = Mayorizado.objects.get(id_cuenta = id_cuenta, id_ciclo = id_ciclo)
+
+    fecha_inicio = mayorizacion_cuenta.fecha_inicio
+    fecha_final = mayorizacion_cuenta.fecha_final
+
+    partidasDiario = PartidaDiario.objects.all()
+    partidas=[]
+    registros=[]
+
+    for p in partidasDiario:
+        fecha_p = p.fecha_partida
+
+        if fecha_p >= fecha_inicio.date() and fecha_p <= fecha_final.date():
+            partidas.append(p)
+    
+    for p in partidas:
+        id_partida = p.id_partida
+
+        registro = PartidaCuenta.objects.filter(id_cuenta= id_cuenta, id_partida = id_partida).exists()
+
+        if ( registro == True):
+            registro = PartidaCuenta.objects.filter(id_cuenta= id_cuenta, id_partida = id_partida)
+
+            for r in registro:
+                registros.append({"id_partida": r.id_partida.id_partida, "saldo_partidacuenta": r.saldo_partidacuenta, "naturaleza_cuentapartida":r.naturaleza_cuentapartida})
+
+
+
+
+    return JsonResponse(registros, safe=False)
 
 
 
@@ -107,16 +272,29 @@ def crear_cuenta(request):
     cuentas= Cuenta.objects.all()
     conteo=cuentas.count() + 1
 
-    id_tipo=request.GET.get('tipoCuentacbx')
-    tipo=TipoCuenta.objects.filter(id_tipo_cuenta=id_tipo)
     categoria= CategoriaCuenta.objects.filter(id_categoria_cuenta=request.GET.get('categoriacbx'))
-    cuenta.id_tipo_cuenta=tipo[0]
+    id_tipo=request.GET.get('tipoCuentacbx')
 
-    cuenta.codigo_cuenta= str(categoria[0].codigo_categoria) + str(tipo[0].codigo_tipo) + str(conteo)
+    if categoria[0].id_categoria_cuenta == 2 or categoria[0].id_categoria_cuenta == 1:
+        tipo=TipoCuenta.objects.filter(id_tipo_cuenta=id_tipo)
+    
+        cuenta.id_tipo_cuenta=tipo[0]
 
-    cuenta.naturaleza_cuenta="Acreedora"
+        cuenta.codigo_cuenta= str(categoria[0].codigo_categoria) + str(tipo[0].codigo_tipo) + str(conteo)
 
-    cuenta.save()
+        cuenta.naturaleza_cuenta="Acreedora"
+
+        cuenta.save()
+    else:
+
+        tipo=TipoCuenta.objects.filter(id_tipo_cuenta=2)
+        cuenta.id_tipo_cuenta=tipo[0]
+        cuenta.codigo_cuenta= str(categoria[0].codigo_categoria) + str(conteo)
+
+        cuenta.naturaleza_cuenta="Deudora"
+
+        cuenta.save()
+
 
     guardado = {"cierto":True,"salvado":"salvado"}
     data=[]

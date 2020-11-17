@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Administración contable</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/fontawesomefontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!--% for dep, valor in departamentos.items %}
+{dep}} { valor }}<br/> -->
+<!--% endfor %} -->
+
+
+<section class="content">
+<br/> 
+<div class="container"> <!--container-->
+<div class="container-fluid"> <!-- container -fluid -->
+<div class="panel panel-default"> <!--panel-->
+<div class="panel-body"> <!--panel body-->
+
+
+<div class="row"> <!-- row-->
+ <div class="col-md-12">
+  <div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Filtros de Búsqueda</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" id="form_ingresar_transaccion" method="GET">
+      <div class="card-body">
+        <div class="form-group">
+          <table id="tablaBusqueda" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Cuenta</th>
+              <th>Ciclo</th>
+              <th>Operaciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td style="width:35%" ><div class="form-group">
+                <select id="id_cuenta_cbx" name="id_cuenta_cbx" class="form-control select2" style="width: 100%;">
+                  <option value="0" selected="selected" >Seleccione una cuenta</option>
+                  {% for c in cuentas %}
+                  <option value="{{c.id_cuenta}}">{{c.nombre_cuenta}}</option>
+                  {% endfor %}
+                </select>
+              </div></td>
+              <td align="middle"><div class="form-group" >
+                <select id="id_ciclo_cbx" name="id_ciclo_cbx" class="form-control select2" style="width: 50%;">
+                  {% for ci in ciclos_finalizados %}
+                  <option value="{{ci.id_ciclo}}">{{ci.id_ciclo}}</option>
+                  {% endfor %}              
+                </select>
+              </div></td>
+              <td align="middle">
+                <button type="" id="buscarMayorizacionbtn"  class="btn btn-primary">ingresar transaccion en cuenta</button>
+              </td>
+            </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <!--<button type="submit" id="btnGuardarTransaccion"  class="btn btn-default">ingresar transaccion en cuenta</button> -->
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+</div> <!--col-md-12-->
+
+ 
+</div> <!-- row-->
+
+
+<div class="row">
+  <div class="col-md-12">
+  <div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title" id="tituloTablaMayorizacion">Mayorizacion</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <table id="tablaCuentas" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th id="thcabezera" colspan="4"></th>
+        </tr>
+        <tr>
+          <th>Partida ID</th>
+          <th>Debe</th>
+          <th>Haber</th>
+          <th>Partida ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="1" align="center"><b>Total</b></td>
+          <td id="totalDebecld" >0</td>
+          <td id="totalHabercld" >0</td>
+          <td></td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+
+ </div>
+</div>
+</div> <!--row-->
+
+
+</div> <!--panel body-->
+</div> <!-- panel -->
+</div> <!-- container fluid-->
+</div> <!--container-->
+
+</section> <!--CONTENT-->
+
+
+
+
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+<script>
+  $("#buscarMayorizacionbtn").on('click', function(e){
+    e.preventDefault();
+    var id_cuenta=$("#id_cuenta_cbx").val();
+    var id_ciclo=$("#id_ciclo_cbx").val();
+    $("#tablaCuentas tbody tr").remove();
+    $("#totalDebecld").val(0);
+    $("#totalDebecld").text(0);
+    $("#totalHabercld").val(0);
+    $("#totalHabercld").text(0);
+
+    //buscando la cuenta
+    $.ajax({
+      url: '{% url "obtenerCuenta" %}',
+      data: {id_cuenta_transaccion_cbx: id_cuenta},
+      dataType: 'json',
+      success: function (data_cuenta) 
+      {
+      console.log(data_cuenta);
+
+      //buscando el ciclo contable
+      $.ajax({
+      url: '{% url "obtenerCicloContable" %}',
+      data: {id_ciclo: id_ciclo},
+      dataType: 'json',
+      success: function (data_ciclo) 
+      {
+      console.log(data_ciclo);
+
+      var inicio = new Date(Date.parse(data_ciclo[0].fecha_inicio.toString()));
+      var cadena=""+ data_cuenta[0].nombre_cuenta.toString() + "- Ciclo ID: "+ data_ciclo[0].id_ciclo.toString() + " Desde " + data_ciclo[0].fecha_inicio.toString() + " Hasta " + data_ciclo[0].fecha_fin.toString();
+
+      $("#thcabezera").val(cadena);
+      $("#thcabezera").text(cadena);
+
+      $.ajax({
+      url: '{% url "obtenerMayorizacionCuenta" %}',
+      data: {id_ciclo: id_ciclo, id_cuenta: id_cuenta},
+      dataType: 'json',
+      success: function (data_mayorizacion_partidas) 
+      {
+      console.log(data_mayorizacion_partidas);
+
+      if( data_mayorizacion_partidas.length == 0)
+      {
+
+      }
+      else
+      {
+
+        for( var i =0; i<= data_mayorizacion_partidas.length; i++)
+        {
+          var naturaleza = data_mayorizacion_partidas[i].naturaleza_cuentapartida;
+          console.log(naturaleza);
+
+          if( naturaleza == "Debe")
+          {
+            var fila = "<tr><td>"+ data_mayorizacion_partidas[i].id_partida + "</td><td>"+ data_mayorizacion_partidas[i].saldo_partidacuenta +"</td><td></td><td></td></tr>"; 
+            $("#tablaCuentas tbody").append(fila);
+            var valor_act = $("#totalDebecld").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalDebecld").val(parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+              $("#totalDebecld").text(parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+            }
+            else
+            {
+              $("#totalDebecld").val(parseFloat(valor_act) + parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+              $("#totalDebecld").text(parseFloat(valor_act) + parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+            }
+          }
+          else
+          {
+            var fila = "<tr><td></td><td></td><td>"+ data_mayorizacion_partidas[i].saldo_partidacuenta +"</td><td>"+ data_mayorizacion_partidas[i].id_partida +"</td></tr>"; 
+            $("#tablaCuentas tbody").append(fila);
+
+            var valor_act = $("#totalHabercld").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalHabercld").val(parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+              $("#totalHabercld").text(parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+            }
+            else
+            {
+              $("#totalHabercld").val(parseFloat(valor_act) + parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+              $("#totalHabercld").text(parseFloat(valor_act) + parseFloat(data_mayorizacion_partidas[i].saldo_partidacuenta));
+            }
+          }
+      }
+      } // else
+      }
+
+      });
+      //fin de la llamada a mayorizacion
+
+      }
+
+      }); // fin de la llamada al ciclo
+
+
+      
+      }
+
+      }); //fin de la llamada a la cuenta
+  });
+</script>
+{% endblock %}

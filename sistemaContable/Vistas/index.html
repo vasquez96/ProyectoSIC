@@ -155,15 +155,15 @@
             {% endif %}
 
             {% if sin_ciclo == True %}
-            <center><div class="btn btn-primary btn-lg" onclick="{% url 'ingresarPartidaDiario' %}" disabled>Ingresar Nueva Partida</div></center>
+            <center><div class="btn btn-primary btn-lg" onclick="" disabled><a href="{% url 'ingresarPartidaDiario' %}" style="color:white">Ingresar Nueva Partida</a></div></center>
             {% else %}
-            <center><div class="btn btn-primary btn-lg" onclick="{% url 'ingresarPartidaDiario' %}" >Ingresar Nueva Partida</div></center>
+            <center><div class="btn btn-primary btn-lg" onclick=""><a href="{% url 'ingresarPartidaDiario' %}" style="color:white">Ingresar Nueva Partida</a></div></center>
             {% endif %}
 
             {% if sin_ciclo == False %}
-            <center><div class="btn btn-danger btn-lg" id="finalizarCicloContablebtn" onclick="" disabled>Finalizar ciclo contable</div></center>
-            {% else %}
             <center><div class="btn btn-danger btn-lg" id="finalizarCicloContablebtn" onclick="" >Finalizar ciclo contable</div></center>
+            {% else %}
+            <center><div class="btn btn-danger btn-lg" id="finalizarCicloContablebtn" onclick=""disabled >Finalizar ciclo contable</div></center>
             {% endif %}
 
             <ul class="list-group">
@@ -367,6 +367,7 @@
 
 <script>
   $("#finalizarCicloContablebtn").on('click', function(e){
+    e.preventDefault();
 
     var id_ciclo_contable = {{ciclo_id}};
     $.ajax({

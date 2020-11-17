@@ -49,6 +49,22 @@
             </a>
           </li>
           {% endif %}
+          {% if modulo == "mayorizacion" %}
+          <li class="nav-item">
+            <a href="{% url 'mayorizacion' %}"  class="nav-link active">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Mayorizacion de cuentas</p>
+            </a>
+          </li>
+          {% else %}
+           <li class="nav-item">
+            <a href="{% url 'mayorizacion' %}"  class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Mayorizacion de cuentas</p>
+            </a>
+          </li>
+          {% endif %}
+
          {% if modulo == "catalogoCuentas" %}
           <li class="nav-item">
             <a href="{% url 'catalogoDeCuentas' %}" class="nav-link active">

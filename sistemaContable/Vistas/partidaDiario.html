@@ -59,7 +59,7 @@
       <div class="card-body">
         <div class="form-group">
           <label for="exampleInputEmail1">Descripcion</label>
-          <textarea class="form-control" id="exampleInputEmail1" placeholder="ingrese una breve descripcion de la transaccion"></textarea>
+          <textarea class="form-control" id="descripcionta" placeholder="ingrese una breve descripcion de la transaccion"></textarea>
         </div>
             <div class="input-group-append">
             </div>
@@ -70,7 +70,7 @@
       <!-- /.card-body -->
 
       <div class="card-footer">
-        <button type="" id="btnGuardarPartida" disabled class="btn btn-success">Guardar</button>
+        <button type="submit" id="btnGuardarPartida" disabled class="btn btn-success">Guardar</button>
       </div>
     </form>
   </div>
@@ -299,11 +299,71 @@
 <script>
   $(document).ready(function(){
     //Script que guarda la partida
-    $("#guardarPartida").on('click', function(e){
+    $("#btnGuardarPartida").on('click', function(e){
+
+      e.preventDefault();
+      var saldo_p = $("#totalDebecld").val();
+      var descripcion_p = $("#descripcionta").val();
+      var usuario_r="{{usuario}}";
+      var id_ob =0
+
+      $.ajax({
+      url: '{% url "crearPartidaDiario" %}',
+      data: {saldo_partida: saldo_p, descripcion_partida: descripcion_p, usuario_responsable: usuario_r},
+      dataType: 'json',
+      success: function (data_partida) 
+      {
+          console.log(data_partida);
+          var id_ob = data_partida[0].id_partida;
+          console.log(id_ob);
+
+          $("#tablaCuentas tbody tr").each(function(){
+
+var codigo_cuenta = $(this).find("td").eq(0).html();
+console.log(codigo_cuenta);
+console.log("CODIGO OBTENIDO DE LA TABLA");
+var valor_debe = $(this).find("td").eq(2).html();
+var valor_haber = $(this).find("td").eq(3).html();
+var naturaleza = "neutral";
+var saldo =0;
+
+if( valor_debe == 0 )
+{
+  naturaleza = "Haber";
+  saldo = parseFloat(valor_haber);
+
+}
+else
+{
+  naturaleza = "Debe";
+  saldo = parseFloat(valor_debe);
+}
+// causaba error en meter todas esas variables en el data, hay que ponerlo a parte
+
+var mi_data={codigo_c:codigo_cuenta,naturaleza_transaccion:naturaleza,saldo_transaccion:saldo,id_partida:id_ob};
+var dat = JSON.stringify(mi_data); //lo pasa a un string
+var dat = JSON.parse(dat); // lo convierte en un verdadero objeto json
+$.ajax({
+  url: '{% url "crearPartidaCuenta" %}',
+  data: dat,
+  dataType: 'json',
+  success: function (data) 
+    {
+      console.log(data);
+    }
+  });
 
 
 
+}); // fin del each para cada tr dentro de la tabla
+
+     
+      }
+      }); // fin del ajax que va a iniciar una nueva partida
+      
     });
+
+
   });
 </script>
 

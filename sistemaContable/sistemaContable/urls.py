@@ -18,7 +18,8 @@ from django.urls import path, include
 from sistemaContable.views import index
 from entidades.views import menu_usuario, iniciar_ciclo_contable, finalizar_ciclo_contable, ingresar_partida_diario
 from entidades.views import catalogo_de_cuentas, crear_cuenta, obtener_cuenta, parametros_costos, informacion_costos, parametros_inventarios, informacion_inventario
-from entidades.views import editar_cuenta
+from entidades.views import editar_cuenta, mayorizacion, obtener_ciclo_contable, obtener_mayorizacion_cuenta, crear_partida_diario
+from entidades.views import crear_partida_cuenta
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,4 +37,9 @@ urlpatterns = [
     path('parametrosInventario', parametros_inventarios, name="parametrosInventario"),
     path('informacionInventario/', informacion_inventario, name="informacionInventario"),
     path('editarCuenta/', editar_cuenta, name="editarCuenta"),
+    path('mayorizacion', mayorizacion, name="mayorizacion"),
+    path('obtenerCicloContable/', obtener_ciclo_contable, name="obtenerCicloContable"),
+    path('obtenerMayorizacionCuenta/', obtener_mayorizacion_cuenta, name="obtenerMayorizacionCuenta"),
+    path('crearPartidaDiario/', crear_partida_diario, name="crearPartidaDiario"),
+    path('crearPartidaCuenta/', crear_partida_cuenta, name="crearPartidaCuenta"),
 ]
