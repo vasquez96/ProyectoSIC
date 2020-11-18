@@ -1,0 +1,634 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Administración contable</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/fontawesomefontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!--% for dep, valor in departamentos.items %}
+{dep}} { valor }}<br/> -->
+<!--% endfor %} -->
+
+
+<section class="content">
+<br/> 
+<div class="container"> <!--container-->
+<div class="container-fluid"> <!-- container -fluid -->
+<div class="panel panel-default"> <!--panel-->
+<div class="panel-body"> <!--panel body-->
+<div class="row"> <!-- row-->
+ 
+</div> <!-- row-->
+</div> <!--panel body-->
+</div> <!-- panel -->
+</div> <!-- container fluid-->
+</div> <!--container-->
+
+</section> <!--CONTENT-->
+
+<div class="row">
+
+  <div class="col-md-9 ">
+    <div class="card card-primary card-tabs">
+      <div class="card-header p-0 pt-1">
+        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Estado de comprobacion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Ajuste</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">B Ajustado</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Settings</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content" id="custom-tabs-one-tabContent">
+          <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+            
+            <table id="estadoComprobacion" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th colspan="3  "><center>Balance de Comprobacion</center></th>
+              </tr>
+              <tr>
+                <th>Nombre de Cuentas</th>
+                <th>Debe</th>
+                <th>Haber</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="3"><center>Sin Datos</center></td></tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="1" align="center"><b>Total</b></td>
+                  <td id="totalDebecld" >0</td>
+                  <td id="totalHabercld" >0</td>
+                </tr>
+                </tfoot>
+              </table>
+
+
+
+          </div><!-- pane-->
+
+          <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Dualidad Económica</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tablaAjuste" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Codigo</th>
+                    <th>Cuenta</th>
+                    <th>Debe</th>
+                    <th>Haber</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="2" align="center"><b>Total</b></td>
+                    <td id="totalDebeclda" >0</td>
+                    <td id="totalHaberclda" >0</td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          
+           </div> <!--pane -->
+          <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+
+            <table id="estadoComprobacionAjustado" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th colspan="3  "><center>Balance de Comprobacion Ajustado</center></th>
+              </tr>
+              <tr>
+                <th>Nombre de Cuentas</th>
+                <th>Debe</th>
+                <th>Haber</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="3"><center>Sin Datos</center></td></tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="1" align="center"><b>Total</b></td>
+                  <td id="totalDebecldba" >0</td>
+                  <td id="totalHabercldba" >0</td>
+                </tr>
+                </tfoot>
+              </table>
+
+             
+          </div> <!-- tab-->
+
+
+
+
+          <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+             Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis. 
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  
+
+  <div class="card col-md-3">
+    <div class="card-header">
+      <h3 class="card-title"><b>Escoger Ciclo</b></h3>
+    </div>
+    <div class="card-body">
+      <div class="btn-group" style="width: 300%; margin-right: 50px;">
+        <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+
+        <div class="form-group" style="width: 70%;" >
+                <select id="id_ciclo_cbx" name="id_ciclo_cbx" class="form-control select2" style="width: 50%;">
+                  <option value="0">Seleccione un ciclo</option>
+                  {% for ci in ciclos_finalizados %}
+                  <option value="{{ci.id_ciclo}}">{{ci.id_ciclo}}</option>
+                  {% endfor %}              
+                </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+
+
+</div> <!-- fin del row-->
+
+
+
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+
+<script>
+  $("#id_ciclo_cbx").change(function(e){
+
+    var id_ciclo = $(this).val();
+
+    $("#estadoComprobacion tbody tr").remove();
+
+    $.ajax({
+      url: "{% url 'obtenerMayorizacionesCiclo' %}",
+      data:{id_ciclo: id_ciclo},
+      dataType: "json",
+      success: function(data_m)
+      {
+
+        var i = 0;
+
+        for(i=0; i<data_m.length; i++) // FOR que rellena la tabla de Estado de comprobacion
+        {
+          var fila="<tr><td>"+data_m[i].nombre + "</td>";
+
+          if(data_m[i].naturaleza == "Debe")
+          {
+            fila+="<td>"+ data_m[i].saldo + "</td><td></td></tr>";
+          }
+          else
+          {
+            if(data_m[i].naturaleza == "Haber")
+            {
+              fila+="<td></td><td>"+ data_m[i].saldo + "</td></tr>";
+            }
+            else
+            {
+              fila+="<td>-</td><td>-</td></tr>";
+            }
+            
+          }
+          $("#estadoComprobacion tbody").append(fila);
+
+          var naturaleza = data_m[i].naturaleza;
+          console.log(naturaleza);
+
+          if( naturaleza == "Debe")
+          {
+            var valor_act = $("#totalDebecld").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalDebecld").val(parseFloat(data_m[i].saldo));
+              $("#totalDebecld").text(parseFloat(data_m[i].saldo));
+            }
+            else
+            {
+              $("#totalDebecld").val(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+              $("#totalDebecld").text(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+            }
+          }
+          else
+          {
+            var valor_act = $("#totalHabercld").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalHabercld").val(parseFloat(data_m[i].saldo));
+              $("#totalHabercld").text(parseFloat(data_m[i].saldo));
+            }
+            else
+            {
+              $("#totalHabercld").val(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+              $("#totalHabercld").text(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+            }
+          }
+
+        } // fin del FOR que se encarga de rellenar la tabla de ESTADO DE COMPROBACION 
+
+    // inicio de relleno de la tabla de ajuste
+    $.ajax({
+      url: "{% url 'obtenerPartidaAjuste' %}",
+      data: {id_ciclo: id_ciclo},
+      dataType: "json",
+      success: function(data_p)
+      {
+        $.ajax({
+            url: "{% url 'obtenerPartidaCuenta' %}",
+            data: {id_partida: data_p[0].id_partida},
+            dataType: "json",
+            success: function(data_a)
+              {
+                var i =0;
+
+                for(i=0; i<data_a.length; i++)
+                  {
+                    if(data_a[i].naturaleza == "Debe")
+                      {
+                        var fila = "<tr><td>"+data_a[i].codigo+"</td><td>"+data_a[i].nombre+"</td><td>"+data_a[i].saldo+"</td><td></td></tr>";
+                        $("#tablaAjuste tbody").append(fila);
+                      }
+                    else
+                      {
+                        var fila = "<tr><td>"+data_a[i].codigo+"</td><td>"+data_a[i].nombre+"</td><td></td><td>"+data_a[i].saldo+"</td></tr>";
+                        $("#tablaAjuste tbody").append(fila);
+                      }
+
+                      $("#totalDebeclda").val(data_a[0].total);
+                      $("#totalDebeclda").text(data_a[0].total);
+
+                      $("#totalHaberclda").val(data_a[0].total);
+                      $("#totalHaberclda").text(data_a[0].total);
+
+                  }
+              
+  
+  // INICIO DEL BALANCE AJUSTADO 
+
+        var i = 0;
+        $("#estadoComprobacionAjustado tbody tr").remove();
+
+        for(i=0; i<data_m.length; i++) // FOR que rellena la tabla de Estado de comprobacion ajustado, d_m y d_a
+        {
+
+          var j=0;
+          var indice_a=0;
+          var encontrado = false;
+          for(j=0; j<data_a.length; j++)
+          {
+            if(data_m[i].nombre == data_a[j].nombre)
+            {
+              encontrado = true;
+              indice_a = j;
+            }
+          }
+
+          if(encontrado == false) //IF que verifica si esta cuenta fue afectada por los ajustes
+          {
+          
+
+          var fila="<tr><td>"+data_m[i].nombre + "</td>";
+
+          if(data_m[i].naturaleza == "Debe")
+          {
+            fila+="<td>"+ data_m[i].saldo + "</td><td></td></tr>";
+          }
+          else
+          {
+            if(data_m[i].naturaleza == "Haber")
+            {
+              fila+="<td></td><td>"+ data_m[i].saldo + "</td></tr>";
+            }
+            else
+            {
+              fila+="<td>-</td><td>-</td></tr>";
+            }
+            
+          }
+          $("#estadoComprobacionAjustado tbody").append(fila);
+
+          var naturaleza = data_m[i].naturaleza;
+          console.log(naturaleza);
+
+          if( naturaleza == "Debe")
+          {
+            var valor_act = $("#totalDebecldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalDebecldba").val(parseFloat(data_m[i].saldo));
+              $("#totalDebecldba").text(parseFloat(data_m[i].saldo));
+            }
+            else
+            {
+              $("#totalDebecldba").val(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+              $("#totalDebecldba").text(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+            }
+          }
+          else
+          {
+            var valor_act = $("#totalHabercldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalHabercldba").val(parseFloat(data_m[i].saldo));
+              $("#totalHabercldba").text(parseFloat(data_m[i].saldo));
+            }
+            else
+            {
+              $("#totalHabercldba").val(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+              $("#totalHabercldba").text(parseFloat(valor_act) + parseFloat(data_m[i].saldo));
+            }
+          }
+          } // fin del IF que comprueba si fue afectado por los ajustes
+        else //Comienza la logica de si fueron afectadas
+        {
+          var fila="<tr><td>"+data_m[i].nombre + "</td>";
+
+          if(String(data_m[i].naturaleza) == String(data_a[indice_a].naturaleza))
+
+          {
+            console.log("sequedoaqui");
+            var saldo_mn=parseFloat(data_m[i].saldo) + parseFloat(data_a[indice_a].saldo);
+            if(data_m[i].naturaleza == "Debe")
+            {
+              fila+="<td>"+ saldo_mn + "</td><td></td></tr>";
+            }
+            else
+            {
+              if(data_m[i].naturaleza == "Haber")
+              {
+                fila+="<td></td><td>"+ saldo_mn + "</td></tr>";
+              }              
+            }
+          $("#estadoComprobacionAjustado tbody").append(fila);
+          var naturaleza = data_m[i].naturaleza;
+          console.log(naturaleza);
+
+          if( naturaleza == "Debe")
+          {
+            var valor_act = $("#totalDebecldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalDebecldba").val(parseFloat(saldo_mn));
+              $("#totalDebecldba").text(parseFloat(saldo_mn));
+            }
+            else
+            {
+              $("#totalDebecldba").val(parseFloat(valor_act) + parseFloat(saldo_mn));
+              $("#totalDebecldba").text(parseFloat(valor_act) + parseFloat(saldo_mn));
+            }
+          }
+          else
+          {
+            var valor_act = $("#totalHabercldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalHabercldba").val(parseFloat(saldo_mn));
+              $("#totalHabercldba").text(parseFloat(saldo_mn));
+            }
+            else
+            {
+              $("#totalHabercldba").val(parseFloat(valor_act) + parseFloat(saldo_mn));
+              $("#totalHabercldba").text(parseFloat(valor_act) + parseFloat(saldo_mn));
+            }
+          }
+
+
+          } // if de misma naturaleza entre data_m y data_a
+          else // comienzo del else si data_m y data_a son diferentes en naturaleza
+          {
+            // inicia la comprobacion de que saldo es mayor, variables saldo_dn y naturaleza
+            if(parseFloat(data_m[i].saldo) > parseFloat(data_a[indice_a].saldo))
+            { 
+              console.log("entro pa seguros");
+              var naturaleza_resultante = data_m[i].naturaleza;
+              var saldo_dn = parseFloat(data_m[i].saldo) - parseFloat(data_a[indice_a].saldo);
+            }
+            else
+            {
+              if( parseFloat(data_a[indice_a].saldo)> parseFloat(data_m[i].saldo))
+              {
+                var naturaleza_resultante = data_a[indice_a].naturaleza;
+                var saldo_dn= parseFloat(data_a[indice_a].saldo) - parseFloat(data_m[i].saldo);
+              }
+              else
+              {
+                var naturaleza_resultante = "Neutro";
+                var saldo_dn=0;
+              }
+            }// fin de la comprobacion de saldo mayor entre data_m y data_a
+
+            //armado de la fila
+            if(naturaleza_resultante == "Debe")
+            {
+              fila+="<td>"+ saldo_dn + "</td><td></td></tr>";
+            }
+            else
+            {
+              if(naturaleza_resultante == "Haber")
+              {
+                fila+="<td></td><td>"+ saldo_dn + "</td></tr>";
+              }              
+            } //fin del armado
+
+            $("#estadoComprobacionAjustado tbody").append(fila);
+
+          var naturaleza = naturaleza_resultante;
+          console.log(naturaleza);
+
+          if( naturaleza == "Debe")
+          {
+            var valor_act = $("#totalDebecldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalDebecldba").val(parseFloat(saldo_dn));
+              $("#totalDebecldba").text(parseFloat(saldo_dn));
+            }
+            else
+            {
+              $("#totalDebecldba").val(parseFloat(valor_act) + parseFloat(saldo_dn));
+              $("#totalDebecldba").text(parseFloat(valor_act) + parseFloat(saldo_dn));
+            }
+          }
+          else
+          {
+            var valor_act = $("#totalHabercldba").val();
+            
+            if( valor_act == 0)
+            {
+              $("#totalHabercldba").val(parseFloat(saldo_dn));
+              $("#totalHabercldba").text(parseFloat(saldo_dn));
+            }
+            else
+            {
+              $("#totalHabercldba").val(parseFloat(valor_act) + parseFloat(saldo_dn));
+              $("#totalHabercldba").text(parseFloat(valor_act) + parseFloat(saldo_dn));
+            }
+          } // fin del llenado de una fila ajustada de diferentes naturalezas
+
+
+          }// fin del else que trata las cuentas con ajustes de diferente naturaleza
+          
+
+
+        } // fin de la logica si fueron afectadas por ajustes
+
+        } // fin del FOR que se encarga de rellenar la tabla de ESTADO DE COMPROBACION AJUSTADO con data_m
+
+        //INGRESANDO LAS CUENTAS DE AJUSTE QUE NO AFECTAN A LAS MAYORIZADAS
+        var i =0;
+
+        for (i=0; i< data_a.length; i++)
+        { // inicio de for rellenando las cuentas de ajuste faltantes
+          
+          var encontrado=false;
+          var indice_a = 0;
+
+          var j=0;
+          for(j=0; j<data_m.length; j++)
+          {
+            if(data_m[j].nombre == data_a[i].nombre)
+            {
+              encontrado=true;
+              indice_a = i;
+            }
+          }
+
+            if(encontrado == true)
+            {
+
+            }
+            else
+            {
+              if(data_a[i].naturaleza == "Debe")
+               {
+                  var fila = "<tr><td>"+data_a[i].nombre+"</td><td>"+data_a[i].saldo+"</td><td></td></tr>";
+                  $("#estadoComprobacionAjustado tbody").append(fila);
+                }
+              else
+                {
+                    var fila = "<tr><td>"+data_a[i].nombre+"</td><td></td><td>"+data_a[i].saldo+"</td></tr>";
+                    $("#estadoComprobacionAjustado tbody").append(fila);
+                }
+                if(data_a[i].naturaleza == "Debe")
+                {
+                
+                var valor_act = $("#totalDebecldba").val();
+
+                if(valor_act == 0)
+                {
+                  $("#totalDebecldba").val(data_a[i].saldo);
+                  $("#totalDebecldba").text(data_a[i].saldo);
+                }
+                else
+                {
+                  $("#totalDebecldba").val(parseFloat(valor_act)+parseFloat(data_a[i].saldo));
+                  $("#totalDebecldba").text(parseFloat(valor_act)+parseFloat(data_a[i].saldo));
+                }
+                
+                
+                }
+                else
+                {
+
+                  var valor_act = $("#totalHabercldba").val();
+
+                if(valor_act == 0)
+                {
+                  $("#totalHabercldba").val(data_a[i].saldo);
+                  $("#totalHabercldba").text(data_a[i].saldo);
+                }
+                else
+                {
+                  $("#totalHabercldba").val(parseFloat(valor_act)+parseFloat(data_a[i].saldo));
+                  $("#totalHabercldba").text(parseFloat(valor_act)+parseFloat(data_a[i].saldo));
+                }
+
+
+                }
+
+            }
+
+          
+        } // FIN DEL INGRESO DE CUENTAS QUE NO AFECTARON LAS MAYORIZADAS
+
+      } // success de data_a
+        }); //ajax de obtener partida cuenta de ajuste y Ajustetabla
+      } //success de data_p
+    }); // ajax de obtenerPartidaAjuste y fin del relleno de la tabla de ajustes
+
+
+
+} // fin del success del ajax que llama la mayorizacion data_m
+
+}); // fin ajax de BALANCE COMPROBACION
+  
+
+  }); // fin funcion control del cbx ciclo
+</script>
+{% endblock %}

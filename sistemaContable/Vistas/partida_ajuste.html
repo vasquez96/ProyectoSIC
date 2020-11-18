@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Administración contable</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/fontawesomefontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
+  <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!--% for dep, valor in departamentos.items %}
+{dep}} { valor }}<br/> -->
+<!--% endfor %} -->
+
+
+<section class="content">
+<br/> 
+<h2><b>INGRESO DE PARTIDA DIARIO</b></h2>
+<div class="container"> <!--container-->
+<div class="container-fluid"> <!-- container -fluid -->
+<div class="panel panel-default"> <!--panel-->
+<div class="panel-body"> <!--panel body-->
+<div class="row"> <!-- row-->
+
+ <div class="col-sm-10">
+   <!-- general form elements -->
+   <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Información General</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Descripcion</label>
+          <textarea class="form-control" id="descripcionta" placeholder="ingrese una breve descripcion de la transaccion"></textarea>
+        </div>
+            <div class="input-group-append">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" id="btnGuardarPartida" disabled class="btn btn-success">Guardar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Ingresar cuenta</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" id="form_ingresar_transaccion" method="GET">
+      <div class="card-body">
+        <div class="form-group">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Cuenta</th>
+              <th>Naturaleza</th>
+              <th>Saldo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td ><div class="form-group" align="middle">
+                <select id="id_cuenta_transaccion_cbx" name="id_cuenta_transaccion_cbx" class="form-control select2" style="width: 100%;">
+                  <option value="0" selected="selected" >Seleccione una cuenta</option>
+                  {% for c in cuentas %}
+                  <option value="{{c.id_cuenta}}">{{c.nombre_cuenta}}</option>
+                  {% endfor %}
+                </select>
+              </div></td>
+              <td><div class="form-group" align="middle">
+                <select id="naturaleza_transaccion_cbx" class="form-control select2" style="width: 100%;">
+                  <option selected="selected">Seleccione</option>
+                  <option value="1">Debe</option>
+                  <option value="2">Haber</option>                  
+                </select>
+              </div></td>
+              <td><div class="form-group" align="middle"><input type="text" id="saldo_ipx" align="middle" onkeypress="return check(event)"></div></td>
+            </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" id="btnGuardarTransaccion"  class="btn btn-default">ingresar transaccion en cuenta</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+
+
+
+<!-- INICIO DE TABLA -->
+  <div class="card card-success">
+    <div class="card-header">
+      <h3 class="card-title">Dualidad Económica</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <table id="tablaCuentas" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Cuenta</th>
+          <th>Debe</th>
+          <th>Haber</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="2" align="center"><b>Total</b></td>
+          <td id="totalDebecld" >0</td>
+          <td id="totalHabercld" >0</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+
+ </div>
+
+
+
+
+</div> <!-- row-->
+</div> <!--panel body-->
+</div> <!-- panel -->
+</div> <!-- container fluid-->
+</div> <!--container-->
+
+</section> <!--CONTENT-->
+
+<div class="row">
+</div>
+
+
+
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+<script>
+  function check(e) {
+    tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla == 8) {
+        return true;
+    }
+
+    // Patron de entrada, en este caso solo acepta numeros
+    patron = /^[0-9.]+$/; //patron = /[A-Za-z0-9]/ este permite todos excepto caracteres especiales
+    tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+}
+</script>
+
+<script>
+
+  // Script que almacena una transaccion en una cuenta en la tabla, no en BD
+     $(document).ready(function() {
+    $('#form_ingresar_transaccion').on('submit', function(e){
+      // validation code here
+      e.preventDefault();
+      var formulario = $("#form_ingresar_transaccion");
+      var nom_cuenta = $("#cuenta_transaccion_cbx").val();
+      var naturaleza_transaccion = $("#naturaleza_transaccion_cbx").val();
+      var saldo = $("#saldo_ipx").val();
+      console.log(saldo)
+
+      $.ajax({
+          url: '{% url "obtenerCuenta" %}',
+          data: formulario.serialize(),
+          dataType: 'json',
+          success: function (data) 
+          {
+
+          console.log(data);
+
+          var fila="<tr id='"+$('#id_cuenta_transaccion_cbx').val() +"'><td>"+ data[0].codigo_cuenta+"</td>"+"<td>"+data[0].nombre_cuenta+"</td>";
+
+          if(naturaleza_transaccion == 1)
+          {
+
+            fila = fila + "<td>"+saldo+"</td><td></td></tr>";
+            valorCelda=$("#totalDebecld").val();
+            console.log( parseFloat(valorCelda));
+
+            // comprobamos si tiene valor anteriormente 
+            if(valorCelda == 0 )
+            {
+              totalDebe= saldo;
+            }
+            else
+            {
+              console.log(parseFloat($("#totalDebecld").val()))
+              totalDebe= parseFloat($("#totalDebecld").val()) + parseFloat(saldo);
+            }
+            
+            console.log(totalDebe);
+            $("#totalDebecld").val(totalDebe);
+            $("#totalDebecld").text(totalDebe);
+
+            //comprobamos si el saldo del debe y el haber son el mismo para habilitar la opción de guardar
+            var valor_debe_total = $("#totalDebecld").val();
+            var valor_haber_total = $("#totalHabercld").val();
+
+
+            if(valor_debe_total == valor_haber_total)
+            {
+              $("#btnGuardarPartida").removeAttr("disabled");
+            }
+            else
+            {
+              $("#btnGuardarPartida").attr("disabled", true);
+            }
+          }
+          else
+          {
+            fila = fila + "<td></td><td>"+saldo+"</td></tr>";
+            valorCelda=$("#totalHabercld").val();
+            console.log( parseFloat(valorCelda));
+
+            //comprobamos s tiene valor anteriormente
+            if(valorCelda == 0 ){
+              totalHaber= saldo;
+            }
+            else{
+              console.log(parseFloat($("#totalHabercld").val()))
+              totalHaber= parseFloat($("#totalHabercld").val()) + parseFloat(saldo);
+            }
+            
+            console.log(totalHaber);
+            $("#totalHabercld").val(totalHaber);
+            $("#totalHabercld").text(totalHaber);
+
+             //comprobamos si el saldo del debe y el haber son el mismo para habilitar la opción de guardar
+             var valor_debe_total = $("#totalDebecld").val();
+            var valor_haber_total = $("#totalHabercld").val();
+
+            if(valor_debe_total == valor_haber_total)
+            {
+              $("#btnGuardarPartida").removeAttr("disabled");
+            }
+            else
+            {
+              $("#btnGuardarPartida").attr("disabled", true);
+            }
+          }
+          $("#tablaCuentas tbody").append(fila);
+          cambio_Cuentas();
+          }
+          });       
+    });
+  });
+  </script>
+
+<!-- -->
+<script>
+  $(document).ready(function(){
+    //Script que guarda la partida
+    $("#btnGuardarPartida").on('click', function(e){
+
+      e.preventDefault();
+      var saldo_p = $("#totalDebecld").val();
+      var descripcion_p = $("#descripcionta").val();
+      var usuario_r="{{usuario}}";
+      var id_ob =0
+
+      $.ajax({
+      url: '{% url "crearPartidaDiarioAjuste" %}',
+      data: {saldo_partida: saldo_p, descripcion_partida: descripcion_p, usuario_responsable: usuario_r},
+      dataType: 'json',
+      success: function (data_partida) 
+      {
+          console.log(data_partida);
+          var id_ob = data_partida[0].id_partida;
+          console.log(id_ob);
+
+          $("#tablaCuentas tbody tr").each(function(){
+
+var codigo_cuenta = $(this).find("td").eq(0).html();
+console.log(codigo_cuenta);
+console.log("CODIGO OBTENIDO DE LA TABLA");
+var valor_debe = $(this).find("td").eq(2).html();
+var valor_haber = $(this).find("td").eq(3).html();
+var naturaleza = "neutral";
+var saldo =0;
+
+if( valor_debe == 0 )
+{
+  naturaleza = "Haber";
+  saldo = parseFloat(valor_haber);
+
+}
+else
+{
+  naturaleza = "Debe";
+  saldo = parseFloat(valor_debe);
+}
+// causaba error en meter todas esas variables en el data, hay que ponerlo a parte
+
+var mi_data={codigo_c:codigo_cuenta,naturaleza_transaccion:naturaleza,saldo_transaccion:saldo,id_partida:id_ob};
+var dat = JSON.stringify(mi_data); //lo pasa a un string
+var dat = JSON.parse(dat); // lo convierte en un verdadero objeto json
+$.ajax({
+  url: '{% url "crearPartidaCuenta" %}',
+  data: dat,
+  dataType: 'json',
+  success: function (data) 
+    {
+      console.log(data);
+    }
+  });
+
+
+
+}); // fin del each para cada tr dentro de la tabla
+
+      window.location.replace("{% url 'menu_usuario' %}");
+     
+      } //success de la llamada ajax de nueva partida
+      }); // fin del ajax que va a iniciar una nueva partida
+      
+    });
+
+
+  });
+</script>
+
+
+<script>
+  $("#id_cuenta_transaccion_cbx").change(function( ){
+    // Script que deshabilita el ingresar dos transacciones que involucren la misma cuenta
+    cambio_Cuentas();
+   
+});
+</script>
+
+<script>
+  function cambio_Cuentas()
+  {
+    console.log("entro");
+var cuenta_escogida = $("#id_cuenta_transaccion_cbx").val();
+var encontrada=false;
+
+$("#tablaCuentas tr").each(function(){
+
+  var id_tr = $(this).attr('id');
+  if (cuenta_escogida == id_tr)
+  {
+    encontrada = true;
+    console.log("entro true");
+  }
+});
+
+if(encontrada == true)
+{
+  $("#btnGuardarTransaccion").attr("disabled", true);
+}
+else
+{
+  $("#btnGuardarTransaccion").removeAttr("disabled");
+  console.log("entro false");
+}
+  }
+</script>
+{% endblock %}

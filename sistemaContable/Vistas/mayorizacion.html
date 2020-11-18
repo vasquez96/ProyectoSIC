@@ -77,13 +77,15 @@
               </div></td>
               <td align="middle"><div class="form-group" >
                 <select id="id_ciclo_cbx" name="id_ciclo_cbx" class="form-control select2" style="width: 50%;">
+                  <option value="0">Seleccione un ciclo</option>
                   {% for ci in ciclos_finalizados %}
                   <option value="{{ci.id_ciclo}}">{{ci.id_ciclo}}</option>
                   {% endfor %}              
                 </select>
               </div></td>
               <td align="middle">
-                <button type="" id="buscarMayorizacionbtn"  class="btn btn-primary">ingresar transaccion en cuenta</button>
+                <button type="" id="buscarMayorizacionbtn"  class="btn btn-default" disabled>Ver Mayorizacion</button>
+                <div class="btn btn-info btn-md" onclick=""><a href="{% url 'estadosFinancieros' %}" style="color:white">Estados Financieros</a></div>
               </td>
             </tr>
             </tbody>
@@ -128,9 +130,15 @@
         </tbody>
         <tfoot>
         <tr>
-          <td colspan="1" align="center"><b>Total</b></td>
+          <td colspan="1" align="center"><b></b></td>
           <td id="totalDebecld" >0</td>
           <td id="totalHabercld" >0</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="1" align="center"><b>Total</b></td>
+          <td id="totalDcld" >0</td>
+          <td id="totalHcld" >0</td>
           <td></td>
         </tr>
         </tfoot>
@@ -170,6 +178,11 @@
     $("#totalHabercld").val(0);
     $("#totalHabercld").text(0);
 
+    $("#totalDcld").val(0);
+    $("#totalDcld").text(0);
+
+    $("#totalHcld").val(0);
+    $("#totalHcld").text(0);
     //buscando la cuenta
     $.ajax({
       url: '{% url "obtenerCuenta" %}',
@@ -188,8 +201,9 @@
       {
       console.log(data_ciclo);
 
-      var inicio = new Date(Date.parse(data_ciclo[0].fecha_inicio.toString()));
-      var cadena=""+ data_cuenta[0].nombre_cuenta.toString() + "- Ciclo ID: "+ data_ciclo[0].id_ciclo.toString() + " Desde " + data_ciclo[0].fecha_inicio.toString() + " Hasta " + data_ciclo[0].fecha_fin.toString();
+      var inicio = new Date(data_ciclo[0].fecha_inicio.toString());
+      inicio = getFormattedDate(inicio);
+      var cadena=""+ data_cuenta[0].nombre_cuenta.toString() + "- Ciclo ID: "+ data_ciclo[0].id_ciclo.toString() +"Desde: "+ inicio + " Hasta " + data_ciclo[0].fecha_fin.toString();
 
       $("#thcabezera").val(cadena);
       $("#thcabezera").text(cadena);
@@ -204,12 +218,14 @@
 
       if( data_mayorizacion_partidas.length == 0)
       {
+        var fila="<tr><td colspan='4'><center> Sin transacciones </center> </td> <tr>"
+        $("#tablaCuentas tbody").append(fila);
 
       }
       else
       {
 
-        for( var i =0; i<= data_mayorizacion_partidas.length; i++)
+        for( var i =0; i<  data_mayorizacion_partidas.length; i++)
         {
           var naturaleza = data_mayorizacion_partidas[i].naturaleza_cuentapartida;
           console.log(naturaleza);
@@ -250,7 +266,34 @@
             }
           }
       }
-      } // else
+       var haber = $("#totalHabercld").val();
+       var debe = $("#totalDebecld").val();
+
+
+       debe=parseFloat(debe);
+       haber=parseFloat(haber);
+
+       console.log(debe);
+       console.log(haber);
+       if( debe > haber)
+       {
+        $("#totalDcld").val(debe-haber);
+        $("#totalDcld").text(debe-haber);
+       }
+       else
+       {
+         if(debe == haber)
+         {
+
+         }
+         else
+         {
+            $("#totalHcld").val(haber-debe);
+            $("#totalHcld").text(haber-debe);
+          }
+       }
+
+      } // else de la comprobacion si la data viene vacia
       }
 
       });
@@ -265,6 +308,60 @@
       }
 
       }); //fin de la llamada a la cuenta
+  });
+
+  function getFormattedDate(date) {
+     var year = date.getFullYear();
+     var month = (1 + date.getMonth()).toString();
+     month = month.length > 1 ? month : '0' + month;
+     var day = date.getDate().toString();
+     day = day.length > 1 ? day : '0' + day;
+     return year + '-' + month + '-' + day;
+}
+</script>
+<script>
+  $("#id_cuenta_cbx").change(function(e){
+
+    var id_cuenta = $(this).val();
+    var id_ciclo = $("#id_ciclo_cbx").val();
+
+    if( id_cuenta != 0 && id_ciclo != 0)
+    {
+      $("#buscarMayorizacionbtn").removeAttr("disabled");
+      $("#buscarMayorizacionbtn").removeClass("btn btn-default");
+      $("#buscarMayorizacionbtn").addClass("btn btn-primary");
+      
+    } 
+    else
+    {
+      $("#buscarMayorizacionbtn").attr("disabled", true);
+      $("#buscarMayorizacionbtn").removeClass("btn btn-primary");
+      $("#buscarMayorizacionbtn").addClass("btn btn-default");
+    }
+
+  });
+</script>
+
+<script>
+  $("#id_ciclo_cbx").change(function(e){
+
+    var id_cuenta = $(this).val();
+    var id_ciclo = $("#id_ciclo_cbx").val();
+
+    if( id_cuenta != 0 && id_ciclo != 0)
+    {
+      $("#buscarMayorizacionbtn").removeAttr("disabled");
+      $("#buscarMayorizacionbtn").removeClass("btn btn-default");
+      $("#buscarMayorizacionbtn").addClass("btn btn-primary");
+      
+    } 
+    else
+    {
+      $("#buscarMayorizacionbtn").attr("disabled", true);
+      $("#buscarMayorizacionbtn").removeClass("btn btn-primary");
+      $("#buscarMayorizacionbtn").addClass("btn btn-default");
+    }
+
   });
 </script>
 {% endblock %}

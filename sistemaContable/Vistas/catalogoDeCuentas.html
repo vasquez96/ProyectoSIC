@@ -321,6 +321,7 @@
   //script que filtra el tipo de cuenta a partir de la categoria
   $('#categoriacbx').change(function(){  
     var id_categoria = $(this).val();
+    $("#tipoCuentacbx option").remove();
     if(id_categoria == "0")
     {
       $('#tipoCuentacbx option ').remove();
@@ -414,18 +415,51 @@
       }
       else
       {
-        $('#editcategoriacbx').val(2);
+        if(cat == 2)
+        {
+          $('#editcategoriacbx').val(2);
+        }
+        
+        else
+        {
+          if(cat == 3)
+          {
+            $("#editcategoriacbx").val(3);
+          }
+          else
+          {
+            if(cat == 4)
+            {
+            $("#editcategoriacbx").val(4);
+            }
+            else
+            {
+              $("#editcategoriacbx").val(5);
+
+            }
+          }
+        }
+
       }
+        
 
       //control del tipo
-      if(tip == 1)
+      if( cat <= 2 )
       {
+        if(tip == 1)
+        {
         $('#edittipoCuentacbx').val(1);
+        }
+      else
+        {
+        $('#edittipoCuentacbx').val(2);
+        }
       }
       else
       {
-        $('#edittipoCuentacbx').val(2);
+        $('#edittipoCuentacbx').attr("disabled", true);
       }
+      
 
       var nombre = data[0].nombre_cuenta.toString();
       console.log(nombre);

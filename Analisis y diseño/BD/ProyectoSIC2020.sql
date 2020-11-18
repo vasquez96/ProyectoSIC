@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     15/11/2020 02:05:32                          */
+/* Created on:     18/11/2020 02:56:08                          */
 /*==============================================================*/
 
 
@@ -119,6 +119,7 @@ create table CUENTA
    NOMBRE_CUENTA        varchar(30) not null,
    CODIGO_CUENTA        int not null,
    NATURALEZA_CUENTA    varchar(20) not null,
+   CUENTA_ACTIVA        bool not null,
    primary key (ID_CUENTA)
 );
 
@@ -159,7 +160,8 @@ create table PARTIDA_DIARIO
    FECHA_PARTIDA        date not null,
    SALDO_PARTIDA        decimal(10,2) not null,
    DESCRIPCION_PARTIDA  varchar(200) not null,
-   USUARIO_RESPONSABLE  int,
+   USUARIO_RESPONSABLE  int not null,
+   AJUSTE               bool not null,
    primary key (ID_PARTIDA)
 );
 
