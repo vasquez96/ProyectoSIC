@@ -431,6 +431,129 @@ def estadosFinancieros(requestContext):
 
     return render(requestContext, "estadosFinancieros.html",{"ciclos_finalizados": ciclos_finalizados})
 
+def obtener_cuentas_resultado(request):
+    cuentas_r = []
+    data=[]
+
+    cuentas = Cuenta.objects.all()
+
+    for c in cuentas:
+
+        codigo = str(c.codigo_cuenta)
+
+        categoria = codigo[0]
+
+        if categoria == "4" or categoria == "5":
+
+            cuentas_r.append(c)
+    
+    for cu in cuentas_r:
+
+        suma_debe =0
+        suma_haber =0
+
+        partidascuenta = PartidaCuenta.objects.filter(id_cuenta = cu)
+
+        for p in partidascuenta:
+
+            if p.naturaleza_cuentapartida == "Debe":
+                suma_debe+=p.saldo_partidacuenta
+            else:
+                suma_haber+=p.saldo_partidacuenta
+        
+        if (suma_debe > suma_haber):
+            suma = suma_debe - suma_haber
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Debe"}
+            data.append(r)
+        else:
+            suma = suma_haber - suma_debe
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Haber"}
+            data.append(r)
+
+    return JsonResponse(data, safe=False)
+
+def obtener_cuentas_capital(request):
+
+    cuentas = Cuenta.objects.all()
+    cuentas_capital=[]
+    data=[]
+
+    for c in cuentas:
+        codigo = str(c.codigo_cuenta)
+        categoria = codigo[0]
+
+        if categoria == "3":
+            cuentas_capital.append(c)
+    
+    for cu in cuentas_capital:
+        suma_debe =0
+        suma_haber =0
+
+        partidascuenta = PartidaCuenta.objects.filter(id_cuenta = cu)
+
+        for p in partidascuenta:
+
+            if p.naturaleza_cuentapartida == "Debe":
+                suma_debe+=p.saldo_partidacuenta
+            else:
+                suma_haber+=p.saldo_partidacuenta
+        
+        if (suma_debe > suma_haber):
+            suma = suma_debe - suma_haber
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Debe"}
+            data.append(r)
+        else:
+            suma = suma_haber - suma_debe
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Haber"}
+            data.append(r)
+
+    return JsonResponse(data, safe=False)
+
+def obtener_cuenta_balance(request):
+    cuentas = Cuenta.objects.all()
+    cuentas_capital=[]
+    data=[]
+
+    for c in cuentas:
+        codigo = str(c.codigo_cuenta)
+        categoria = codigo[0]
+
+        if categoria == "1" or categoria =="2":
+            cuentas_capital.append(c)
+    
+    for cu in cuentas_capital:
+        suma_debe =0
+        suma_haber =0
+
+        partidascuenta = PartidaCuenta.objects.filter(id_cuenta = cu)
+
+        for p in partidascuenta:
+
+            if p.naturaleza_cuentapartida == "Debe":
+                suma_debe+=p.saldo_partidacuenta
+            else:
+                suma_haber+=p.saldo_partidacuenta
+        
+        if (suma_debe > suma_haber):
+            suma = suma_debe - suma_haber
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Debe"}
+            data.append(r)
+        else:
+            suma = suma_haber - suma_debe
+
+            r ={"nombre":cu.nombre_cuenta, "saldo":suma, "naturaleza":"Haber"}
+            data.append(r)
+
+
+    return JsonResponse(data, safe=False)
+
+
+
 def parametros_costos(requestContext):
 
     modulo="parametrosCostos"

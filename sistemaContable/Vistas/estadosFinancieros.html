@@ -70,13 +70,19 @@
             <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">B Ajustado</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Settings</a>
+            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Estado de Resultado</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#capitalTab" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Estado de Capital</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="bgtap" data-toggle="pill" href="#balanceGeneralTab" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Balance General</a>
           </li>
         </ul>
       </div>
       <div class="card-body">
         <div class="tab-content" id="custom-tabs-one-tabContent">
-          <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+          <div class="tab-pane fade show active" id="bgtab" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
             
             <table id="estadoComprobacion" class="table table-bordered table-striped">
               <thead>
@@ -100,21 +106,18 @@
                 </tr>
                 </tfoot>
               </table>
-
-
+              
 
           </div><!-- pane-->
 
           <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
 
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Dualidad Económica</h3>
-              </div>
-              <!-- /.card-header -->
               <div class="card-body">
                 <table id="tablaAjuste" class="table table-bordered table-striped">
                   <thead>
+                    <tr>
+                      <th colspan="4 "><center>Ajustes</center></th>
+                    </tr>
                   <tr>
                     <th>Codigo</th>
                     <th>Cuenta</th>
@@ -134,8 +137,6 @@
                 </table>
               </div>
               <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
           
            </div> <!--pane -->
           <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
@@ -168,13 +169,113 @@
 
 
 
-
+          <!-- INICIO DE TAB-PANE DE ESTADO DE RESULTADO -->
           <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-             Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis. 
-          </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tablaEstadoResultado" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th colspan="3  "><center>Estado de resultado</center></th>
+                    </tr>
+                  <tr>
+                    <th>Cuenta</th>
+                    <th>Debe</th>
+                    <th>Haber</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="3"><center>Sin Datos</center></td></tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="1" align="center"><b>Total</b></td>
+                    <td id="totalDebeclder" >0</td>
+                    <td id="totalHaberclder" >0</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td id="totalDclder" >0</td>
+                    <td id="totalHclder" >0</td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+
+          </div><!-- FIN DE TAB-PANE DE ESTADO DE RESULTADO -->
+
+
+          <!-- INICIO DE TAB-PANE DE ESTADO DE CAPITAL -->
+          <div class="tab-pane fade" id="capitalTab" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+              <div class="card-body">
+                <table id="tablaEstadoCapital" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th colspan="3  "><center>Estado de Capital</center></th>
+                    </tr>
+                  <tr>
+                    <th>Cuenta</th>
+                    <th>Debe</th>
+                    <th>Haber</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="3"><center>Sin Datos</center></td></tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="1" align="center"><b>Total</b></td>
+                    <td id="totalDebecldec" >0</td>
+                    <td id="totalHabercldec" >0</td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+
+          </div><!-- FIN DE TAB-PANE DE ESTADO DE CAPITAL -->
+
+
+          
+
+          <!-- INICIO DE TAB-PANE DE BALANCE GENERAL -->
+          <div class="tab-pane fade" id="balanceGeneralTab" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tablaBalanceGeneral" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th colspan="3  "><center>Balance General</center></th>
+                    </tr>
+                  <tr>
+                    <th>Cuenta</th>
+                    <th>Debe</th>
+                    <th>Haber</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="3"><center>Sin Datos</center></td></tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="1" align="center"><b>Total</b></td>
+                    <td id="totalDebecldbg" >0</td>
+                    <td id="totalHabercldbg" >0</td>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+
+          </div><!-- FIN DE TAB-PANE DE BALANCE GENERAL -->
+
+
+
+
+
         </div>
-      </div>
-      <!-- /.card -->
+
     </div>
   
 
@@ -617,12 +718,22 @@
           
         } // FIN DEL INGRESO DE CUENTAS QUE NO AFECTARON LAS MAYORIZADAS
 
+        var total_debecldba=$("#totalDebecldba").val();
+        total_debecldba=parseFloat(total_debecldba).toFixed(2);
+        $("#totalDebecldba").val(total_debecldba);
+        $("#totalDebecldba").text(total_debecldba);
+
+        var total_habercldba=$("#totalHabercldba").val();
+        total_habercldba=parseFloat(total_habercldba).toFixed(2);
+        $("#totalHabercldba").val(total_habercldba);
+        $("#totalHabercldba").text(total_habercldba);
+
       } // success de data_a
         }); //ajax de obtener partida cuenta de ajuste y Ajustetabla
       } //success de data_p
     }); // ajax de obtenerPartidaAjuste y fin del relleno de la tabla de ajustes
 
-
+estado_de_resultado();
 
 } // fin del success del ajax que llama la mayorizacion data_m
 
@@ -630,5 +741,355 @@
   
 
   }); // fin funcion control del cbx ciclo
+
+function estado_de_resultado()
+{
+  $("#tablaEstadoResultado tbody tr").remove();
+  $.ajax({
+    url:"{% url 'obtenerCuentasResultado' %}",
+    data:{},
+    dataType:"json",
+    success: function(data)
+    {
+      console.log(data);
+      console.log("esto imprime");
+      var i =0;
+      for(i=0; i<data.length; i++)
+      {
+        var fila="<tr><td>"+ data[i].nombre + "</td>";
+
+        if(String(data[i].naturaleza)=="Debe")
+        {
+          fila += "<td>"+data[i].saldo+"</td><td></td></tr>";
+
+          var valor_act = $("#totalDebeclder").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalDebeclder").val(parseFloat(data[i].saldo));
+            $("#totalDebeclder").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalDebeclder").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalDebeclder").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+          
+
+        }
+        else
+        {
+          fila +="<td></td><td>"+data[i].saldo+"</td></tr>";
+          var valor_act = $("#totalHaberclder").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalHaberclder").val(parseFloat(data[i].saldo));
+            $("#totalHaberclder").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalHaberclder").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalHaberclder").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+        }
+        $("#tablaEstadoResultado tbody").append(fila);
+
+      }
+      var suma_debe =parseFloat($("#totalDebeclder").val());
+      var suma_haber = parseFloat($("#totalHaberclder").val());
+
+      if( suma_debe > suma_haber)
+      {
+        var suma = suma_debe - suma_haber;
+        suma = suma.toFixed(2);
+        $("#totalDclder").val(suma);
+        $("#totalDclder").text(suma);
+      }
+      else
+      {
+        if(suma_haber > suma_debe)
+        {
+          var suma = suma_haber - suma_debe;
+          suma = suma.toFixed(2);
+          $("#totalHclder").val(suma);
+          $("#totalHclder").text(suma);
+        }
+      }
+    
+    estado_de_capital();
+
+    }//fin del success de la llamada ajax pra rellenar el estado de resultado
+  });
+} // funcion de estado de resultado
+
+function estado_de_capital()
+{
+  $("#tablaEstadoCapital tbody tr").remove();
+  $.ajax({
+    url: "{% url 'obtenerCuentasCapital' %}",
+    data:{},
+    dataType:'json',
+    success: function(data)
+    {
+      console.log("capital");
+      console.log(data);
+      var i =0;
+      for(i=0; i<data.length; i++)
+      {
+        var fila="<tr><td>"+ data[i].nombre + "</td>";
+
+        if(String(data[i].naturaleza)=="Debe")
+        {
+          fila += "<td>"+data[i].saldo+"</td><td></td></tr>";
+
+          var valor_act = $("#totalDebecldec").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalDebecldec").val(parseFloat(data[i].saldo));
+            $("#totalDebecldec").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalDebecldec").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalDebecldec").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+          
+
+        }
+        else
+        {
+          fila +="<td></td><td>"+data[i].saldo+"</td></tr>";
+          var valor_act = $("#totalHabercldec").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalHabercldec").val(parseFloat(data[i].saldo));
+            $("#totalHabercldec").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalHabercldec").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalHabercldec").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+        }
+        $("#tablaEstadoCapital tbody").append(fila);
+
+      }
+      var suma_debe =parseFloat($("#totalDebecldec").val());
+      var suma_haber = parseFloat($("#totalHabercldec").val());
+
+
+
+      //restante de estado de resultado
+      var total_debe_er = $("#totalDclder").val();
+      var total_haber_er = $("#totalHclder").val();
+      console.log("debe c");
+      console.log(total_debe_er);
+      console.log(total_haber_er);
+
+      if(total_debe_er == 0)
+      {
+        var suma_debe_ec=parseFloat(suma_debe);
+      }
+      else
+      {
+        var suma_debe_ec=parseFloat(suma_debe)+parseFloat(total_debe_er);
+      }
+
+      if(total_haber_er == 0)
+      {
+        var suma_haber_ec=parseFloat(suma_haber);
+      }
+      else
+      {
+        var suma_haber_ec=parseFloat(suma_haber) + parseFloat(total_haber_er);
+      }
+
+      
+      
+      console.log("suma debe cap");
+      console.log(suma_debe_ec);
+      console.log(suma_haber_ec);
+      
+
+
+
+      if(total_debe_er == 0)
+      {
+        var fila = "<tr><td></td><td>0</td><td>"+parseFloat(total_haber_er)+"</td></tr>";
+        $("#tablaEstadoCapital tfoot").append(fila);
+      }
+      else
+      {
+        var fila = "<tr><td></td><td>"+parseFloat(total_debe_er)+"</td><td>0</td></tr>";
+        $("#tablaEstadoCapital tfoot").append(fila);
+
+      }
+
+      if( suma_debe_ec > suma_haber_ec)
+      {
+        console.log("entroooooo");
+        var suma = suma_debe_ec - suma_haber_ec;
+        suma = suma.toFixed(2);
+
+        var fila = "<tr><td></td><td id='totalDec'>"+parseFloat(suma)+"</td><td id='totalHec'>0</td></tr>";
+        $("#tablaEstadoCapital tfoot").append(fila);
+        $("#totalDec").val(parseFloat(suma));
+        $("#totalHec").val(0);
+
+      }
+      else
+      {
+        if(suma_haber_ec > suma_debe_ec)
+        {
+          console.log("entro en el haber");
+          var suma = suma_haber_ec - suma_debe_ec;
+          var suma = suma.toFixed(2);
+          var fila = "<tr><td></td><td id='totalDec'>0</td><td id='totalHec'>"+parseFloat(suma)+"</td></tr>";
+        $("#tablaEstadoCapital tfoot").append(fila);
+        $("#totalDec").val(0);
+        $("#totalHec").val(parseFloat(suma));
+          
+        }
+      }
+balance_general();
+    
+
+    }//fin del success del estado de capital
+    
+  });
+
+}
+
+function balance_general()
+{
+  $("#tablaBalanceGeneral tbody tr").remove();
+  $.ajax({
+    url: "{% url 'obtenerCuentasBalance' %}",
+    data:{},
+    dataType: 'json',
+    success: function(data)
+    {
+      for(i=0; i<data.length; i++)
+      {
+        var fila="<tr><td>"+ data[i].nombre + "</td>";
+
+        if(String(data[i].naturaleza)=="Debe")
+        {
+          fila += "<td>"+data[i].saldo+"</td><td></td></tr>";
+
+          var valor_act = $("#totalDebecldbg").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalDebecldbg").val(parseFloat(data[i].saldo));
+            $("#totalDebecldbg").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalDebecldbg").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalDebecldbg").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+          
+
+        }
+        else
+        {
+          fila +="<td></td><td>"+data[i].saldo+"</td></tr>";
+          var valor_act = $("#totalHabercldbg").val();
+
+          if(valor_act == 0)
+          {
+            $("#totalHabercldbg").val(parseFloat(data[i].saldo));
+            $("#totalHabercldbg").text(parseFloat(data[i].saldo));
+          }
+          else
+          {
+            $("#totalHabercldbg").val(parseFloat(valor_act) + parseFloat(data[i].saldo));
+            $("#totalHabercldbg").text(parseFloat(valor_act) + parseFloat(data[i].saldo));
+
+          }
+        }
+        $("#tablaBalanceGeneral tbody").append(fila);
+
+      }
+
+       //restante de estado de capital
+      var total_debe_ec = parseFloat($("#totalDec").val());
+      var total_haber_ec = parseFloat($("#totalHec").val());
+
+      var suma_debe = $("#totalDebecldbg").val();
+      var suma_haber =$("#totalHabercldbg").val();
+      console.log("restantes bg");
+      console.log(total_debe_ec);
+      console.log(total_haber_ec);
+
+      if(total_debe_ec == 0)
+      {
+        var suma_debe_bg=parseFloat(suma_debe);
+      }
+      else
+      {
+        var suma_debe_bg=parseFloat(suma_debe)+parseFloat(total_debe_ec);
+      }
+
+      if(total_haber_ec == 0)
+      {
+        var suma_haber_bg=parseFloat(suma_haber);
+      }
+      else
+      {
+        var suma_haber_bg=parseFloat(suma_haber) + parseFloat(total_haber_ec);
+      }
+
+      
+      
+      console.log("suma debe cap");
+      console.log(suma_debe_bg);
+      console.log(suma_haber_bg);
+      
+
+
+
+      if(total_debe_ec == 0)
+      {
+        var fila = "<tr><td>Capital</td><td>0</td><td>"+parseFloat(total_haber_ec)+"</td></tr>";
+        $("#tablaBalanceGeneral tfoot").append(fila);
+      }
+      else
+      {
+        var fila = "<tr><td>Capital</td><td>"+parseFloat(total_debe_ec)+"</td><td>0</td></tr>";
+        $("#tablaBalanceGeneral tfoot").append(fila);
+
+      }
+
+        console.log("entroooooo");
+        var suma = suma_debe_bg - suma_haber_bg;
+        suma = suma.toFixed(2);
+
+        var fila = "<tr><td></td><td id='totalDbg'>"+parseFloat(suma_debe_bg)+"</td><td id='totalHbg'>"+parseFloat(suma_haber_bg)+"</td></tr>";
+        $("#tablaBalanceGeneral tfoot").append(fila);
+      
+    
+      
+
+
+
+
+
+    }// success de balance general 
+
+  });
+}
+
+
+
 </script>
 {% endblock %}

@@ -20,7 +20,7 @@ from entidades.views import menu_usuario, iniciar_ciclo_contable, finalizar_cicl
 from entidades.views import catalogo_de_cuentas, crear_cuenta, obtener_cuenta, parametros_costos, informacion_costos, parametros_inventarios, informacion_inventario
 from entidades.views import editar_cuenta, mayorizacion, obtener_ciclo_contable, obtener_mayorizacion_cuenta, crear_partida_diario
 from entidades.views import crear_partida_cuenta, obtener_partida_cuenta, estadosFinancieros, obtener_mayorizaciones_ciclo, crear_partida_diario_ajuste
-from entidades.views import obtener_partida_ajuste
+from entidades.views import obtener_partida_ajuste, obtener_cuentas_resultado, obtener_cuentas_capital, obtener_cuenta_balance
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,4 +48,8 @@ urlpatterns = [
     path('obtenerMayorizacionesCiclo/', obtener_mayorizaciones_ciclo, name="obtenerMayorizacionesCiclo"),
     path('crearPartidaDiarioAjuste/', crear_partida_diario_ajuste, name="crearPartidaDiarioAjuste"),
     path('obtenerPartidaAjuste/', obtener_partida_ajuste, name="obtenerPartidaAjuste"),
+    path('obtenerCuentasResultado/', obtener_cuentas_resultado, name="obtenerCuentasResultado"),
+    path('obtenerCuentasCapital/', obtener_cuentas_capital, name="obtenerCuentasCapital"),
+    path('obtenerCuentaBalance/', obtener_cuenta_balance, name="obtenerCuentasBalance"),
+
 ]
