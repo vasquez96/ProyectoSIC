@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from sistemaContable.views import index
 from entidades.views import menu_usuario, iniciar_ciclo_contable, finalizar_ciclo_contable, ingresar_partida_diario
-from entidades.views import catalogo_de_cuentas, crear_cuenta, obtener_cuenta, parametros_costos, informacion_costos, parametros_inventarios, informacion_inventario
+from entidades.views import catalogo_de_cuentas, crear_cuenta, obtener_cuenta, parametros_costos, informacion_costos, parametros_inventarios, informacion_inventario, guardarParametrosCostosEmpleado, guardarCostoDeFabricacion, guardarCostosCIF
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,7 +31,11 @@ urlpatterns = [
     path('crearCuenta/', crear_cuenta, name="crearCuenta"),
     path('obtenerCuenta/', obtener_cuenta, name="obtenerCuenta"),
     path('parametrosCosto/', parametros_costos, name="parametrosCostos"),
+    path('guardarParametrosCostosEmpleado/', guardarParametrosCostosEmpleado, name= "guardarParametrosCostosEmpleado"),
+    path('guardarCostoDeFabricacion/', guardarCostoDeFabricacion, name ="guardarCostoDeFabricacion"),
+    path('guardarCostosCIF/', guardarCostosCIF, name = "guardarCostosCIF"),
     path('informacionCostos', informacion_costos, name="informacionCostos"),
     path('parametrosInventario', parametros_inventarios, name="parametrosInventario"),
     path('informacionInventario/', informacion_inventario, name="informacionInventario"),
+    
 ]
