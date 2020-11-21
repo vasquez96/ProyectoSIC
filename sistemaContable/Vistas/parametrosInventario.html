@@ -27,6 +27,11 @@
   <link rel="stylesheet" href="{% static 'lib/AdminLTE3.0.4/plugins/summernote/summernote-bs4.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="{% static 'lib/Canvas/js/Chart.js' %}"></script>
   <script src="{% static 'lib/Canvas/js/Chart.min.js' %}"></script>
@@ -57,9 +62,264 @@
 <div class="row">
 </div>
 
+<!-- Main -->
+<article id="main">
+  <section class="wrapper style5">
+    <div class="inner">
+      <section>
+        <h4 style="text-align: center;">Datos Iniciales</h4>
+
+        <form method="post" action="#">
+          <div class="row uniform">
+
+            <div class="3u 12u$(xsmall)">
+              <input type="text" name="fecha1" id="fecha1" value="" placeholder="Fecha de Compra"/>
+            </div>
+
+            <div class="3u 12u$(xsmall)">
+              <input type="text" name="cantComp" id="cantComp" value="" placeholder="Cantidad de Compra" onkeyup="format(this)" onchange="format(this)"/>
+            </div>
+
+            <div class="3u 12u$(xsmall)">
+              <input type="text" name="costComp" id="costComp" value="" placeholder="Costo de compra " onkeyup="format(this)" onchange="format(this)"/>
+            </div>
+
+          <br>	
+          <div class="12u$">
+            <ul class="actions" style="text-align: center">
+              <li><input type="button" value="Calcular" class="principal" id="add_row"/></li>
+            </ul>
+          </div>	
+
+            <div class="5u 12u$(xsmall)">
+              <input type="text" name="fecha2" id="fecha2" value="" placeholder="Fecha de Venta"/>
+            </div>
+
+            <div class="5u 12u$(xsmall)">
+              <input type="text" name="cantVent" id="cantVent" value="" placeholder="Cantidad de Venta" onkeyup="format(this)" onchange="format(this)"/>
+            </div>                            
+          </div>
+          <br>
+          <div class="12u$">
+            <ul class="actions" style="text-align: center">
+              <li><input type="button" value="Calcular" class="principal" id="add_row1"/></li>
+            </ul>
+          </div>									
+          
+          <div class="table-wrapper">
+            <table id="tabla_inventario">
+              <thead>
+                <h4 style="text-align: center;">Valuación de Inventario por PEPS</h4>
+                <th>
+                  
+                </th>
+                <th>
+                  
+                </th>
+                <th colspan="3">
+                  Compras
+                </th>														
+                <th colspan="3">
+                  Ventas
+                </th>													
+                <th colspan="3">
+                  Saldo
+                </th>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <th>cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>																												
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <td>Acción</td>														
+                </tr>
+              </thead>
+              <tbody id="content_table1">
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="1"></td>
+                  <td id="total_cantComp1">0.00</td>
+                  <td id="total_precio1">0.00</td>
+                  <td id="total_totalComp1">0.00</td>
+                  <td id="total_cantVent1">0.00</td>
+                  <td id="total_total1">0.00</td>
+                  <td id="total_totalVent1">0.00</td>														
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="table-wrapper">
+            <table id="tabla_inventario2">
+              <thead>
+                <h4 style="text-align: center;">Valuación de Inventario por UEPS</h4>
+                <th>
+                  
+                </th>
+                <th>
+                  
+                </th>
+                <th colspan="3">
+                  Compras
+                </th>
+                  
+                <th colspan="3">
+                  Ventas
+                </th>
+                
+                <th colspan="3">
+                  Saldo
+                </th>
+
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <th>cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>																												
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <td>Acción</td>														
+                </tr>
+              </thead>
+              <tbody id="content_table">
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="1"></td>
+                  <td id="total_cantComp2">0.00</td>
+                  <td id="total_precio2">0.00</td>
+                  <td id="total_totalComp2">0.00</td>
+                  <td id="total_cantVent2">0.00</td>
+                  <td id="total_total2">0.00</td>
+                  <td id="total_totalVent2">0.00</td>														
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="table-wrapper">
+            <table id="tabla_inventario3">
+              <thead>
+                <h4 style="text-align: center;">Valuación de Inventario por Costo Promedio</h4>
+                <th>
+                  
+                </th>
+                <th>
+                  
+                </th>
+                <th colspan="3">
+                  Compras
+                </th>
+                  
+                <th colspan="3">
+                  Ventas
+                </th>
+                
+                <th colspan="3">
+                  Saldo
+                </th>
+
+                <tr>
+                  <th>Fecha</th>
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <th>cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>																												
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Total</th>
+                  <td>Acción</td>														
+                </tr>
+              </thead>
+              <tbody id="content_table">
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="1"></td>
+                  <td id="total_cantComp3">0.00</td>
+                  <td id="total_precio3">0.00</td>
+                  <td id="total_totalComp3">0.00</td>
+                  <td id="total_cantVent3">0.00</td>
+                  <td id="total_total3">0.00</td>
+                  <td id="total_totalVent3">0.00</td>														
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </form>
+      </section>
+      <br> 
+      <br>
+      <br>
+    </div>
+  </section>
+</article>
 
 
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
 <!-- jQuery -->
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'assets/js/skel.min.js' %}"></script>
+<script src="{% static 'assets/js/util.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/invoice.js' %}"></script>
 {% endblock %}
+
