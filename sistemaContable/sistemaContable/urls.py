@@ -21,9 +21,9 @@ from entidades.views import editar_cuenta, mayorizacion, obtener_ciclo_contable,
 from entidades.views import crear_partida_cuenta, obtener_partida_cuenta, estadosFinancieros, obtener_mayorizaciones_ciclo, crear_partida_diario_ajuste
 from entidades.views import obtener_partida_ajuste, obtener_cuentas_resultado, obtener_cuentas_capital, obtener_cuenta_balance
 from entidades.views import catalogo_de_cuentas, crear_cuenta, obtener_cuenta, parametros_costos, informacion_costos, parametros_inventarios, informacion_inventario, guardarParametrosCostosEmpleado, guardarCostoDeFabricacion, guardarCostosCIF
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), 
+
     path('', index,  name="index"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('menu_usuario/', menu_usuario, name="menu_usuario"),
