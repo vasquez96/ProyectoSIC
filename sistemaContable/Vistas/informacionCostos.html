@@ -57,6 +57,144 @@
 <div class="row">
 </div>
 
+<h3><strong>Informacion del Empleado</strong></h3><br>
+
+<h4><strong>Pagos</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Semanal </th>
+      <th scope="col">Diario</th>
+      <th scope="col">Aguinaldo Semanal</th>
+      <th scope="col">vacaciones Semanal</th>
+      <th scope="col">Salud (ISSS)</th>
+      <th scope="col">AFP</th>
+      <th scope="col">Insaforp</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>${{pago_semanal}}</td>
+      <td>${{pago_diario}}</td>
+      <td>${{aguinaldo_semanal}}</td>
+      <td>${{pago_vacaiones_semanal}}</td>
+      <td>${{pago_salud}}</td>
+      <td>${{pago_afp}}</td>
+      <td>${{pago_insaforp}}</td>
+      
+
+  </tbody>
+</table>
+
+<br><h4><strong>Salario Real</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Semanal </th>
+      <th scope="col">Diario</th>
+      <th scope="col">Hora</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>${{salario_realSemanal}}</td>
+      <td>${{salario_realDia}}</td>
+      <td>${{salario_realHora}}</td>
+  </tbody>
+</table>
+
+<br><h4><strong>Salario Nominal</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Semanal </th>
+      <th scope="col">Diario</th>
+      <th scope="col">Hora</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>${{salario_nomSemanal}}</td>
+      <td>${{salario_nomDia}}</td>
+      <td>${{salario_nomHora}}</td>
+  </tbody>
+</table>
+
+
+<br><h4><strong>Factor de Recargo</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Semanal </th>
+      <th scope="col">Diario</th>
+      <th scope="col">Hora</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>${{factor_semana}}</td>
+      <td>${{factor_dia}}</td>
+      <td>${{factor_hora}}</td>
+  </tbody>
+</table>
+
+<br><h4><strong>Factor de Recargo CON EFICIENCIA</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Semanal </th>
+      <th scope="col">Diario</th>
+      <th scope="col">Hora</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>${{factor_semana_efi}}</td>
+      <td>${{factor_dia_efi}}</td>
+      <td>${{factor_hora_efi}}</td>
+  </tbody>
+</table>
+
+<br><h4><strong>CIF</strong></h4>
+<table class="table table-striped">
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th>Valor Suma CIF</th>
+      <th scope="col">Tasa CIF</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="col">1 </th>
+      <td >{{suma_cif}}</td>
+      <td>{{tasa_cif}}</td>
+
+  </tbody>
+</table>
 
 
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>

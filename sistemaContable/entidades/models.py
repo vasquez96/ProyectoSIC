@@ -75,6 +75,61 @@ class CostoMod(models.Model):
     porcentaje_seguro = models.DecimalField(db_column='PORCENTAJE_SEGURO', max_digits=10, decimal_places=2)  # Field name made lowercase.
     porcentaje_afp = models.DecimalField(db_column='PORCENTAJE_AFP', max_digits=10, decimal_places=2)  # Field name made lowercase.
     numero_trabajadores = models.IntegerField(db_column='NUMERO_TRABAJADORES')  # Field name made lowercase.
+    porcentaje_insaforp = models.DecimalField(db_column='PORCENTAJE_INSAFORP', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    factor_recargo = models.DecimalField(db_column='FACTOR_RECARGO', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    horas_trabajadas = models.DecimalField(db_column='HORAS_TRABAJADAS', max_digits=10, decimal_places=2)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'costo_mod'
+
+
+class Cuenta(models.Model):
+    id_cuenta = models.AutoField(db_column='ID_CUENTA', primary_key=True)  # Field name made lowercase.
+    id_tipo_cuenta = models.ForeignKey('TipoCuenta', models.DO_NOTHING, db_column='ID_TIPO_CUENTA')  # Field name made lowercase.
+    nombre_cuenta = models.CharField(db_column='NOMBRE_CUENTA', max_length=30)  # Field name made lowercase.
+    codigo_cuenta = models.IntegerField(db_column='CODIGO_CUENTA')  # Field name made lowercase.
+    naturaleza_cuenta = models.CharField(db_column='NATURALEZA_CUENTA', max_length=20)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'costo_cif'
+
+
+class CostoIndirecto(models.Model):
+    id_costo_indirecto = models.AutoField(db_column='ID_COSTO_INDIRECTO', primary_key=True)  # Field name made lowercase.
+    id_costo_cif = models.ForeignKey(CostoCif, models.DO_NOTHING, db_column='ID_COSTO_CIF')  # Field name made lowercase.
+    nombre_costo_indirecto = models.CharField(db_column='NOMBRE_COSTO_INDIRECTO', max_length=30)  # Field name made lowercase.
+    descripcion_costo_indirecto = models.CharField(db_column='DESCRIPCION_COSTO_INDIRECTO', max_length=200)  # Field name made lowercase.
+    valor_costo_indirecto = models.DecimalField(db_column='VALOR_COSTO_INDIRECTO', max_digits=10, decimal_places=2)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'costo_indirecto'
+
+
+class CostoInventario(models.Model):
+    id_costo_inventario = models.AutoField(db_column='ID_COSTO_INVENTARIO', primary_key=True)  # Field name made lowercase.
+    id_ciclo = models.ForeignKey(CicloContable, models.DO_NOTHING, db_column='ID_CICLO')  # Field name made lowercase.
+    tipo_costo_inventario = models.CharField(db_column='TIPO_COSTO_INVENTARIO', max_length=15)  # Field name made lowercase.
+    nombre_inventario = models.CharField(db_column='NOMBRE_INVENTARIO', max_length=30)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'costo_inventario'
+
+
+class CostoMod(models.Model):
+    id_costo_mod = models.AutoField(db_column='ID_COSTO_MOD', primary_key=True)  # Field name made lowercase.
+    id_ciclo = models.ForeignKey(CicloContable, models.DO_NOTHING, db_column='ID_CICLO')  # Field name made lowercase.
+    salario_diario = models.DecimalField(db_column='SALARIO_DIARIO', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    dias_trabajados = models.IntegerField(db_column='DIAS_TRABAJADOS')  # Field name made lowercase.
+    dias_aguinaldo = models.IntegerField(db_column='DIAS_AGUINALDO')  # Field name made lowercase.
+    dias_vacaciones = models.IntegerField(db_column='DIAS_VACACIONES')  # Field name made lowercase.
+    porcentaje_vacaciones = models.DecimalField(db_column='PORCENTAJE_VACACIONES', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    porcentaje_seguro = models.DecimalField(db_column='PORCENTAJE_SEGURO', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    porcentaje_afp = models.DecimalField(db_column='PORCENTAJE_AFP', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    numero_trabajadores = models.IntegerField(db_column='NUMERO_TRABAJADORES')  # Field name made lowercase.
     porcentaje_insaforp = models.DecimalField(db_column='PORCENTAJE_INSAFORP', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
     factor_recargo = models.DecimalField(db_column='FACTOR_RECARGO', max_digits=10, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
 

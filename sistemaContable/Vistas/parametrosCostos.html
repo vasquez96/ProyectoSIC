@@ -40,12 +40,102 @@
 
 <section class="content">
 <br/> 
+<h2><b>INGRESO DE COSTOS</b></h2>
 <div class="container"> <!--container-->
 <div class="container-fluid"> <!-- container -fluid -->
 <div class="panel panel-default"> <!--panel-->
 <div class="panel-body"> <!--panel body-->
 <div class="row"> <!-- row-->
  
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Informacion empleado</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" id="form_empleado" method="GET">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="salarioDiario">Salario Diario</label>
+                    <input type="float" name= "salarioDiario" class="form-control" id="salarioDiario" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="diastrabajados">Días Trabajados (semana)</label>
+                    <input type="int" name= "diastrabajados" class="form-control" id="diastrabajados" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="horasTrabajadas">Horas Trabajadas (día)</label>
+                    <input type="int" name="horasTrabajadas" class="form-control" id="horasTrabajadas" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="diasAguinaldo">Días de Aguinaldo</label>
+                    <input type="int" name="diasAguinaldo" class="form-control" id="diasAguinaldo" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="diasVacaciones">Días de Vacaciones</label>
+                    <input type="int" name="diasVacaciones" class="form-control" id="diasVacaciones" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="recargoVacaciones">Porcentaje de Vacaciones</label>
+                    <input type="float" name="recargoVacaciones" class="form-control" id="recargoVacaciones" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="porcentajeSeguro">Seguro Social (Salud)</label>
+                    <input type="float" name="porcentajeSeguro" class="form-control" id="porcentajeSeguro" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="porcentajeAFP">AFP</label>
+                    <input type="float" name="porcentajeAFP" class="form-control" id="porcentajeAFP" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="porcentajeInsaforp">Insaforp</label>
+                    <input type="float" name="porcentajeInsaforp" class="form-control" id="porcentajeInsaforp" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="eficiencia">Eficiencia</label>
+                    <input type="float" name="eficiencia" class="form-control" id="eficiencia" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="numTrabajadores">Numero de Trabajadores</label>
+                    <input type="int" name="numTrabajadores" class="form-control" id="numTrabajadores" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  </div>
+                 </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="" id="enviarEmpleado"  class="btn btn-primary">Enviar</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->  
+            <div class="col-md-6">
+              <div class="card card-secondary">
+                <div class="card-header">
+                  <h3 class="card-title">Costos de fabricacion</h3>
+                </div>
+                <form role="form" id="form_costoFabricacion" method="GET">
+                  <div class="card-body">
+                    <div class="form-group">
+                    <label for="valorBase">Valor Base</label>
+                    <input type="int" name="valorBase" class="form-control" id="valorBase" placeholder="Ingrese Cantidad" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="costoMod">Nombre Base CIF</label>
+                    <input type="text" name="NombreMod" class="form-control" id="NombreMod" placeholder="Ingrese Nombre" required>
+                  </div>
+                  <div class="card-footer">
+                    <button type="" id="enviarCif"  class="btn btn-secondary">Enviar</button>
+                  </div>
+
+               
 </div> <!-- row-->
 </div> <!--panel body-->
 </div> <!-- panel -->
@@ -53,13 +143,141 @@
 </div> <!--container-->
 
 </section> <!--CONTENT-->
+  <!-- /.card -->
 
-<div class="row">
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Ingresar Costo</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" id="form_resumen_costos_CIF" method="GET">
+      <div class="card-body">
+        <div class="form-group">
+          <table id="resumen_costos" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><input type="text" id="nombre_costo" name="nombre_costo" ></td>
+              <td><input type="text" id="descripcion_costo" name="descripcion_costo" ></td>
+              <td><input type="float" id="valor_costo" name="valor_costo" ></td>
+            </tr>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="" id="btnGuardarCosto"  class="btn btn-default">Ingresar Costo</button>
+      </div>
+    </form>
+  </div>
+
 </div>
 
+<div>
+  <button id="Envio_form"  class="btn btn-success">Envio</button>
+</div>
 
 
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/chart.js/Chart.min.js' %}"></script>
 <!-- jQuery -->
 <script src="{% static 'lib/AdminLTE3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+
+<script>
+
+  $("#Envio_form").on("click", function(e) {
+
+    e.preventDefault();
+    var empleado = $("#form_empleado");
+    var ingreso_costo = $("#form_resumen_costos_CIF");
+    var costo = $("#form_costoFabricacion");
+    console.log("Entro"); 
+    console.log(empleado);
+
+      $.ajax ({
+
+        url: "{% url 'guardarParametrosCostosEmpleado' %}" , 
+        data:empleado.serialize(),
+        datatype: 'json',
+        success: function (data){
+          console.log(data[0].Encontrado);
+
+          $.ajax({
+            url: "{% url 'guardarCostoDeFabricacion' %}",
+            data: costo.serialize(),
+            dataType: 'json',
+            success: function(data){
+              console.log(data[0].Encontrado);
+
+            }
+
+          });
+
+
+        }
+
+      });
+
+
+  });
+
+  $('#btnGuardarCosto').on('click',function(e){
+        e.preventDefault();
+
+        var ingreso_costo =$("form_resumen_costos_CIF");
+        console.log(ingreso_costo.serialize());
+        console.log("si entro al btn");
+        var nombre = $("#nombre_costo").val();
+        var descripcion = $("#descripcion_costo").val();
+        var valor = parseFloat($("#valor_costo").val());
+        console.log(nombre);
+        console.log(descripcion);
+        console.log(valor);
+        //código 
+              $.ajax({
+                url: "{% url 'guardarCostosCIF' %}",
+                data: {nombre_costo: nombre, descripcion_costo: descripcion, valor_costo: valor},
+                dataType: 'json',
+                success: function(data){
+
+                  console.log(data[0].Encontrado)
+
+                }
+
+              });
+    }) ;
+
+  
+
+</script>
+
+<script>
+
+
+</script>
+
+<script>
+  /*
+
+    //Asignacion de variables
+    var horas_mod = parseFloat( $("#horasMod").val() );
+    var costo_mod = parseFloat( $("#costoMod").val() );
+
+    //Calculo 
+
+
+  });
+});
+*/
+</script>
+
+
 {% endblock %}
