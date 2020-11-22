@@ -111,7 +111,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" id="enviarEmpleado"  class="btn btn-primary">Enviar</button>
+                  <button type="" id="enviarEmpleado"  class="btn btn-primary">Enviar</button>
                 </div>
               </form>
             </div>
@@ -132,7 +132,7 @@
                     <input type="text" name="NombreMod" class="form-control" id="NombreMod" placeholder="Ingrese Nombre" required>
                   </div>
                   <div class="card-footer">
-                    <button type="submit" id="enviarCif"  class="btn btn-secondary">Enviar</button>
+                    <button type="" id="enviarCif"  class="btn btn-secondary">Enviar</button>
                   </div>
 
                
@@ -164,9 +164,9 @@
             </thead>
             <tbody>
             <tr>
-              <td><input type="text" id="nombre_costo" onkeypress="return check(event)"></td>
-              <td><input type="text" id="descripcion_costo" onkeypress="return check(event)"></td>
-              <td><input type="float" id="valor_costo" onkeypress="return check(event)"></td>
+              <td><input type="text" id="nombre_costo" name="nombre_costo" ></td>
+              <td><input type="text" id="descripcion_costo" name="descripcion_costo" ></td>
+              <td><input type="float" id="valor_costo" name="valor_costo" ></td>
             </tr>
             </tbody>
             </table>
@@ -175,7 +175,7 @@
       <!-- /.card-body -->
 
       <div class="card-footer">
-        <button type="submit" id="btnGuardarCosto"  class="btn btn-default">Ingresar Costo</button>
+        <button type="" id="btnGuardarCosto"  class="btn btn-default">Ingresar Costo</button>
       </div>
     </form>
   </div>
@@ -231,10 +231,20 @@
 
   $('#btnGuardarCosto').on('click',function(e){
         e.preventDefault();
+
+        var ingreso_costo =$("form_resumen_costos_CIF");
+        console.log(ingreso_costo.serialize());
+        console.log("si entro al btn");
+        var nombre = $("#nombre_costo").val();
+        var descripcion = $("#descripcion_costo").val();
+        var valor = parseFloat($("#valor_costo").val());
+        console.log(nombre);
+        console.log(descripcion);
+        console.log(valor);
         //código 
               $.ajax({
                 url: "{% url 'guardarCostosCIF' %}",
-                data: ingreso_costo.serialize(),
+                data: {nombre_costo: nombre, descripcion_costo: descripcion, valor_costo: valor},
                 dataType: 'json',
                 success: function(data){
 

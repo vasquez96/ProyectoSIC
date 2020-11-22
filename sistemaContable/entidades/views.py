@@ -143,7 +143,15 @@ def informacion_costos(requestContext):
     factor_hora_efi= salario_realHora / ( salario_nomHora * cMod.factor_recargo)
 
     #CIF
+    costo_cif = CostoCif.objects.get(id_ciclo = ciclo)
 
+    costos_i = CostoIndirecto.objects.filter(id_costo_cif=costo_cif)
+    suma = 0
+
+    for c in costos_i:
+        suma += c.valor_costo_indirecto
+    
+    cost_cif= suma/costo_cif.valor_base
 
 
     return render(requestContext, "informacionCostos.html", {"modulo":modulo, "pago_semanal": round(pago_semanal,2), "pago_diario": round(pago_diario,2), "aguinaldo_semanal": round(aguinaldo_semanal, 2), "pago_vacaiones_semanal": pago_vacaiones_semanal,
@@ -151,7 +159,7 @@ def informacion_costos(requestContext):
     "salario_nomSemanal": round(salario_nomSemanal,2), "salario_nomHora": round(salario_nomHora,2), "salario_nomDia": round(salario_nomDia,2),
     "salario_realSemanal": round(salario_realSemanal,2), "salario_realDia": round(salario_realDia,2), "salario_realHora": round(salario_realHora,2),
     "factor_semana": round( factor_semana,2), "factor_dia": round(factor_dia,2), "factor_hora": round(factor_hora,2),
-    "factor_semana_efi": round(factor_semana_efi,2), "factor_dia_efi": round(factor_dia_efi,2), "factor_hora_efi": round(factor_hora_efi,2)})
+    "factor_semana_efi": round(factor_semana_efi,2), "factor_dia_efi": round(factor_dia_efi,2), "factor_hora_efi": round(factor_hora_efi,2), "suma_cif":suma, "tasa_cif":cost_cif})
 
 def parametros_inventarios(requestContext):
 
@@ -169,13 +177,15 @@ def guardarCostosCIF(request):
     nombre= request.GET.get("nombre_costo")
     descripcion= request.GET.get("descripcion_costo")
     valor= request.GET.get("valor_costo")
+    
 
     costo_indirecto = CostoIndirecto()
     ciclo= CicloContable.objects.get(activo=True)
-    costo_indirecto.id_ciclo= ciclo
-    costo_indirecto.nombre= nombre
-    costo_indirecto.descripcion= descripcion
-    costo_indirecto.valor=valor
+    costo_act = CostoCif.objects.get(id_ciclo = ciclo)
+    costo_indirecto.id_costo_cif = costo_act
+    costo_indirecto.nombre_costo_indirecto= nombre
+    costo_indirecto.descripcion_costo_indirecto= descripcion
+    costo_indirecto.valor_costo_indirecto=valor
 
     costo_indirecto.save()
     data = []
