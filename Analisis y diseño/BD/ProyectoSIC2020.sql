@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     18/11/2020 02:56:08                          */
+/* Created on:     21/11/2020 18:34:57                          */
 /*==============================================================*/
 
 
@@ -106,6 +106,7 @@ create table COSTO_MOD
    NUMERO_TRABAJADORES  int not null,
    PORCENTAJE_INSAFORP  decimal(10,2),
    FACTOR_RECARGO       decimal(10,2),
+   HORAS_TRABAJADAS     decimal(10,2) not null,
    primary key (ID_COSTO_MOD)
 );
 
@@ -160,8 +161,7 @@ create table PARTIDA_DIARIO
    FECHA_PARTIDA        date not null,
    SALDO_PARTIDA        decimal(10,2) not null,
    DESCRIPCION_PARTIDA  varchar(200) not null,
-   USUARIO_RESPONSABLE  int not null,
-   AJUSTE               bool not null,
+   USUARIO_RESPONSABLE  int,
    primary key (ID_PARTIDA)
 );
 
