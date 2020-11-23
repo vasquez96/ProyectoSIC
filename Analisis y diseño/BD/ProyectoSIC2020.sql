@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     21/11/2020 18:34:57                          */
+/* Created on:     22/11/2020 22:30:06                          */
 /*==============================================================*/
 
 
@@ -162,6 +162,7 @@ create table PARTIDA_DIARIO
    SALDO_PARTIDA        decimal(10,2) not null,
    DESCRIPCION_PARTIDA  varchar(200) not null,
    USUARIO_RESPONSABLE  int,
+   AJUSTE               bool,
    primary key (ID_PARTIDA)
 );
 
